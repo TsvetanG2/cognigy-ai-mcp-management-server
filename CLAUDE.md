@@ -17,10 +17,10 @@ A **local, open-source MCP server** that lets coding agents build, configure, te
 - OpenAPI spec downloaded (8.4MB, 250 endpoints, v2026.11.0)
 - Generated TypeScript types from OpenAPI (166K lines)
 - Prism mock server configured
-- **22 MCP tools** implemented across 7 domains
-- **20 unit tests** passing, build succeeds
+- **23 MCP tools** implemented across 7 domains
+- **21 unit tests** passing, build succeeds
 
-### Implemented tools (22 total)
+### Implemented tools (23 total)
 
 #### Phase 0 — Core reads (5 tools)
 | Tool | Description |
@@ -66,11 +66,12 @@ A **local, open-source MCP server** that lets coding agents build, configure, te
 | `get_conversation` | Gets conversation details for a session |
 | `get_transcript` | Assembles human-readable transcript (composite) |
 
-**Snapshots (2 tools)**
+**Snapshots (3 tools)**
 | Tool | Description |
 |------|-------------|
 | `list_snapshots` | Lists all snapshots in a project |
 | `get_snapshot` | Gets snapshot details |
+| `get_snapshot_resources` | Lists resources (flows, locales, etc.) in a snapshot |
 
 **Tasks (2 tools)**
 | Tool | Description |
@@ -110,7 +111,7 @@ src/
 ├── cognigy-client.ts     # Cognigy REST client wrapper
 ├── generated/            # Auto-generated types (do not edit)
 │   └── cognigy-api.d.ts
-└── tools/                # MCP tool implementations (22 files)
+└── tools/                # MCP tool implementations (23 files)
     ├── index.ts          # Tool registration
     ├── list-projects.ts
     ├── list-flows.ts
@@ -132,10 +133,11 @@ src/
     ├── get-transcript.ts
     ├── list-snapshots.ts
     ├── get-snapshot.ts
+    ├── get-snapshot-resources.ts
     ├── list-tasks.ts
     └── get-task.ts
 
-tests/                    # Unit tests (7 files, 20 tests)
+tests/                    # Unit tests (7 files, 21 tests)
 ├── nodes.test.ts
 ├── intents.test.ts
 ├── endpoints.test.ts

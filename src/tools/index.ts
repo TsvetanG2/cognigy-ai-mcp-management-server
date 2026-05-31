@@ -26,6 +26,7 @@ import { registerGetConversation } from "./get-conversation.js";
 import { registerGetTranscript } from "./get-transcript.js";
 import { registerListSnapshots } from "./list-snapshots.js";
 import { registerGetSnapshot } from "./get-snapshot.js";
+import { registerGetSnapshotResources } from "./get-snapshot-resources.js";
 import { registerListTasks } from "./list-tasks.js";
 import { registerGetTask } from "./get-task.js";
 
@@ -67,6 +68,7 @@ export function registerTools(
   // Phase 1: Snapshots (read)
   registerListSnapshots(server, client, config);
   registerGetSnapshot(server, client, config);
+  registerGetSnapshotResources(server, client, config);
 
   // Phase 1: Tasks
   registerListTasks(server, client, config);
