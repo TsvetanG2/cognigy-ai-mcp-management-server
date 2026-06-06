@@ -1,4 +1,4 @@
-# Cognigy.AI MCP Server
+# Cognigy.AI Management MCP Server
 
 > Model Context Protocol server for managing Cognigy.AI virtual agents through the Management API
 > 
