@@ -2,7 +2,7 @@
 
 > Model Context Protocol server for managing Cognigy.AI virtual agents through the Management API
 > 
-> This project is an independent open-source MCP server and is not officially affiliated with NiCE Cognigy. To use it, you need an existing valid account and an API key for the Cognigy.AI platform, in accordance with its commercial licenses.
+> This is an independent, open-source MCP server and is not affiliated with, endorsed by, or sponsored by Cognigy or NiCE. It requires your own valid Cognigy.AI account and API key, used in accordance with Cognigy's commercial license terms. "Cognigy" and "Cognigy.AI" are trademarks of their respective owners.
 
 ## What is this?
 
