@@ -52,3 +52,10 @@ openapi.json
 CLAUDE.md
 cognigy-mcp-server-plan.md
 TOOLS-INTERNAL.md
+
+# MCP Publisher (do not commit binaries or auth tokens)
+mcp-publisher.exe
+mcp-publisher
+.mcp-auth
+.mcp-publisher-token
+*.token

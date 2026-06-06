@@ -1,0 +1,36 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.TsvetanG2/mcp-cognigy-management",
+  "description": "MCP server for managing Cognigy.AI virtual agents - create flows, train NLU, deploy snapshots, and more via natural language",
+  "repository": {
+    "url": "https://github.com/TsvetanG2/mcp-cognigy-management",
+    "source": "github"
+  },
+  "version": "0.1.0",
+  "packages": [
+    {
+      "registryType": "npm",
+      "identifier": "mcp-cognigy-management",
+      "version": "0.1.0",
+      "transport": {
+        "type": "stdio"
+      },
+      "environmentVariables": [
+        {
+          "name": "COGNIGY_BASE_URL",
+          "description": "Cognigy API base URL (e.g., https://api-trial.cognigy.ai)",
+          "isRequired": true,
+          "format": "string",
+          "isSecret": false
+        },
+        {
+          "name": "COGNIGY_API_KEY",
+          "description": "Your Cognigy API key (from My Profile → API Keys)",
+          "isRequired": true,
+          "format": "string",
+          "isSecret": true
+        }
+      ]
+    }
+  ]
+}
