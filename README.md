@@ -233,7 +233,7 @@ Contributions are welcome! Please:
 
 ## Support
 
-- **Issues:** [GitHub Issues](https://github.com/your-org/mcp-cognigy-management/issues)
+- **Issues:** [GitHub Issues](https://github.com/TsvetanG2/mcp-cognigy-management/issues)
 - **Cognigy Docs:** [docs.cognigy.com](https://docs.cognigy.com)
 - **MCP Spec:** [modelcontextprotocol.io](https://modelcontextprotocol.io)
 

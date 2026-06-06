@@ -30,7 +30,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": ""
+    "url": "https://github.com/TsvetanG2/mcp-cognigy-management.git"
   },
   "engines": {
     "node": ">=20.0.0"
