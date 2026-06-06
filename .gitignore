@@ -47,3 +47,8 @@ temp/
 
 # OpenAPI spec (can be downloaded with: npm run update:spec)
 openapi.json
+
+# Internal development docs (not for public repo)
+CLAUDE.md
+cognigy-mcp-server-plan.md
+TOOLS-INTERNAL.md
