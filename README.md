@@ -2,9 +2,6 @@
 
 > Model Context Protocol server for managing Cognigy.AI virtual agents through the Management API
 
-<!-- TODO: Replace with actual demo GIF -->
-![Demo](https://via.placeholder.com/800x400?text=Demo+GIF+Coming+Soon)
-
 ## What is this?
 
 **cognigy-ai-mcp** is a local MCP server that enables AI coding assistants (Claude, Cursor, etc.) to build, configure, test, and operate [Cognigy.AI](https://www.cognigy.com/) conversational AI agents programmatically.
