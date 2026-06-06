@@ -15,6 +15,9 @@ dist/
 *.swp
 *.swo
 
+# Claude Code local settings (user-specific)
+.claude/settings.local.json
+
 # OS
 .DS_Store
 Thumbs.db
@@ -26,8 +29,9 @@ coverage/
 *.log
 npm-debug.log*
 
-# Generated types (can be regenerated)
-src/generated/
+# Generated types can be regenerated with: npm run gen:types
+# But we commit them so the build works out of the box
+# src/generated/
 
 # Fixtures with real API responses (may contain sensitive data)
 tests/fixtures/real/
@@ -40,3 +44,6 @@ snapshots/
 tmp/
 temp/
 *.tmp
+
+# OpenAPI spec (can be downloaded with: npm run update:spec)
+openapi.json

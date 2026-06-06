@@ -129,9 +129,9 @@ Cognigy's "100% exposed" API means the realistic ceiling is **50+ tools**. Below
 - `get_endpoint_url` — retrieve the runtime URL (e.g. REST/Webchat)
 
 ### F. Flow interaction / runtime (the testing workhorse)
-- `send_message_as_user_input` — inject a user utterance, get the bot's output back ← **most valuable single tool**: lets an agent "talk to" a flow and assert on responses
-- `inject` / `notify` — Inject & Notify API
-- `reset_session` — reset session context/state
+- ~~`send_message_as_user_input`~~ — **DEPRECATED** (removed in v2026.7+). Do NOT implement.
+- `inject_message` / `notify` — **Use these instead.** Inject user input or push AI output via the Endpoint inject/notify paths.
+- `inject_context` / `reset_context` — manage session context/state.
 
 ### G. Conversations & Transcripts
 - `get_conversation` — by `sessionId`
@@ -228,28 +228,50 @@ This is the part that unblocks the whole project. Four layers, from "no account"
 
 ---
 
-## 6. Phased roadmap (part-time effort)
+## 6. Phased roadmap
 
-### Phase 0 — Spike (≈1–2 weeks)
+> **Canonical source:** `TOOLS.md` defines the full tool catalog and build order.
+> This section summarizes phases; see TOOLS.md for per-tool details.
+
+### Phase 0 — Core reads ✅ COMPLETE
 - Repo scaffold, TS + MCP SDK, env config, Cognigy `rest-api-client` wired up.
-- Prism mock from OpenAPI spec (Layer 1).
-- Ship **5 core read tools**: `list_projects`, `list_flows`, `get_flow`, `get_flow_settings`, `get_latest_log_entries`.
-- Goal: Claude Code can connect and *read* a Cognigy project.
+- Prism mock from OpenAPI spec.
+- **5 core read tools**: `list_projects`, `list_flows`, `get_flow`, `get_flow_settings`, `get_latest_log_entries`.
 
-### Phase 1 — Usable v1, published (≈3–4 more weeks)
-- Add **interaction + testing**: `send_message_as_user_input`, `reset_session`, `get_transcript`, `run_playbook`.
-- Add **deployment**: `list_snapshots`, `create_snapshot`, `deploy_snapshot`.
-- Add safe mutations with `dryRun`: `update_flow_settings`, intents CRUD.
-- Fixtures + CI (Layer 2). README + demo GIF.
-- **Publish to npm + MCP Registry.** Launch post (LinkedIn / dev.to).
-- Goal: a real, demoable, installable Cognigy MCP — doubles as a job-search portfolio piece.
+### Phase 1 — Inspect & interact ✅ COMPLETE
+- **Nodes**: `get_nodes`, `get_node`, `search_nodes`, `get_node_descriptors`.
+- **Intents**: `list_intents`, `get_intent`.
+- **Endpoints**: `list_endpoints`, `get_endpoint`.
+- **Sessions**: `inject_context`, `reset_context` (for runtime interaction — NOT the deprecated `send_message_as_user_input`).
+- **Conversations**: `get_conversations`, `get_conversation`, `get_transcript`.
+- **Snapshots** (read): `list_snapshots`, `get_snapshot`, `get_snapshot_resources`.
+- **Tasks**: `list_tasks`, `get_task`.
 
-### Phase 2 — Depth (ongoing)
-- Fill out the catalog: Contact Profiles, Connections, Knowledge AI, Analytics/OData, Audit, Agent Copilot.
-- Add the full testing cluster (assertions, simulator) as the headline differentiator.
+### Phase 2 — Author & test ✅ COMPLETE
+- **Node authoring**: `create_node`, `update_node`, `delete_node`, `move_node`, `generate_node_output`.
+- **Intent/Sentence authoring**: `create_intent`, `update_intent`, `delete_intent`, `train_intents`, `list_sentences`, `create_sentence`, `generate_sentences`.
+- **NLU scoring**: `generate_nlu_scores`, `score_utterance`, `audit_nlu`.
+- **Playbooks**: `list_playbooks`, `get_playbook`, `run_playbook`, `list_playbook_runs`, `get_playbook_run`, `run_regression`.
 
-### Phase 3 — Hosted (only if there's pull)
-- Remote transport + OAuth 2.1 + multi-tenant isolation + observability. Material extra effort (+4–8 weeks) and recurring cost.
+### Phase 3 — Deploy & promote ✅ COMPLETE
+- **Snapshots lifecycle**: `create_snapshot` [async], `delete_snapshot` [async], `create_snapshot_download_link`, `restore_snapshot` [async].
+- **Packages**: `list_packages`, `get_package`, `create_package` [async], `upload_package` [async], `merge_package` [async], `create_package_download_link`.
+- **Composite**: `promote_project`, `diff_snapshots`, `clone_agent_across_env`.
+
+### Phase 4 — Configure & administer (CURRENT)
+- **Connections**: full CRUD (redact secrets).
+- **LLMs**: `list_llms`, `create_llm`, `test_llm_connection`.
+- **Knowledge AI**: stores, sources, chunks, connectors.
+- **Functions & Extensions**: CRUD + run.
+- **Contact Profiles**: full CRUD + merge/export.
+- **Analytics**: metrics, OData queries.
+- **Audit**: `list_audit_events`, org policies.
+- **Users/Roles**: member management (gated, admin-only).
+- **Org-wide Search**: `search_resources`.
+
+### Phase 5 — Hosted (only if there's pull)
+- Remote transport + OAuth 2.1 + multi-tenant isolation + observability.
+- Material extra effort and recurring cost.
 
 ---
 
