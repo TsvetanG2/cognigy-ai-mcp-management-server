@@ -1,12 +1,12 @@
 {
-  "name": "cognigy-ai-mcp",
+  "name": "mcp-cognigy-management",
   "version": "0.1.0",
   "description": "Local MCP server for managing Cognigy.AI agents via REST API",
   "type": "module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "bin": {
-    "cognigy-ai-mcp": "dist/index.js"
+    "mcp-cognigy": "dist/index.js"
   },
   "scripts": {
     "build": "tsc",
