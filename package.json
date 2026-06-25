@@ -50,7 +50,7 @@
   "devDependencies": {
     "@cognigy/rest-api-client": "^2026.11.0",
     "@stoplight/prism-cli": "^5.0.0",
-    "@types/node": "^20.0.0",
+    "@types/node": "^26.0.1",
     "dotenv": "^17.4.2",
     "msw": "^2.0.0",
     "openapi-typescript": "^7.0.0",
