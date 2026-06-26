@@ -486,7 +486,6 @@ async function testNodeCRUD(): Promise<void> {
 
   // ChartNodes API might not be available in Trial
   let parentId: string | null = null;
-  let apiAvailable = true;
 
   try {
     const result = await client.indexChartNodes({ flowId } as any) as any;
@@ -499,7 +498,6 @@ async function testNodeCRUD(): Promise<void> {
     }
   } catch (err: any) {
     if (err.message.includes("does not exist")) {
-      apiAvailable = false;
       console.log("⏭️  NODE CRUD: ChartNodes API not available in Trial environment");
       skip("NODE CRUD: find parent node", "ChartNodes API not available");
       skip("NODE CRUD: create_node", "ChartNodes API not available");
