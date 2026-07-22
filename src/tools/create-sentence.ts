@@ -34,7 +34,7 @@ export function registerCreateSentence(
 ): void {
   server.tool(
     "create_sentence",
-    "Creates a new example sentence for NLU intent training. MUTATING: This modifies the intent's training data. Use dryRun=true (default) to validate first. After creating, call train_intents to retrain.",
+    "Creates a new example sentence for Cognigy.AI NLU intent training. MUTATING: This modifies the intent's training data. Use dryRun=true (default) to validate first. After creating, call train_intents to retrain.",
     inputSchema.shape,
     { readOnlyHint: false, destructiveHint: false, idempotentHint: false, openWorldHint: true },
     async (args) => {

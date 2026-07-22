@@ -38,7 +38,7 @@ export function registerScoreUtterance(
 ): void {
   server.tool(
     "score_utterance",
-    "Scores a test utterance against a flow's trained NLU intents. Returns the best matching intent with confidence score. Use this to quickly test if an utterance would be recognized correctly.",
+    "Scores a test utterance against a Cognigy.AI flow's trained NLU intents. Returns the best matching intent with confidence score. Use this to quickly test if an utterance would be recognized correctly.",
     inputSchema.shape,
     { readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: true },
     async (args) => {

@@ -28,7 +28,7 @@ export function registerListPlaybookRuns(
 ): void {
   server.tool(
     "list_playbook_runs",
-    "Lists playbook run history showing pass/fail status, timestamps, and run metadata. Use this to review test results over time.",
+    "Lists Cognigy.AI playbook run history showing pass/fail status, timestamps, and run metadata. Use this to review test results over time.",
     inputSchema.shape,
     { readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: true },
     async (args) => {

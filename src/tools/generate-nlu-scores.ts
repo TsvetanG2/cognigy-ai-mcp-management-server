@@ -30,7 +30,7 @@ export function registerGenerateNluScores(
 ): void {
   server.tool(
     "generate_nlu_scores",
-    "Scores a test utterance against a flow's trained NLU intents. Returns ranked intent matches with confidence scores. Use this to test NLU recognition before deployment.",
+    "Scores a test utterance against a Cognigy.AI flow's trained NLU intents. Returns ranked intent matches with confidence scores. Use this to test NLU recognition before deployment.",
     inputSchema.shape,
     { readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: true },
     async (args) => {

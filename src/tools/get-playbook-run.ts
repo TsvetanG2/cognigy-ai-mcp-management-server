@@ -24,7 +24,7 @@ export function registerGetPlaybookRun(
 ): void {
   server.tool(
     "get_playbook_run",
-    "Gets detailed results of a playbook run including step-by-step assertion outcomes. Use this to analyze test failures and debug conversation flows.",
+    "Gets detailed results of a Cognigy.AI playbook run including step-by-step assertion outcomes. Use this to analyze test failures and debug conversation flows.",
     inputSchema.shape,
     { readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: true },
     async (args) => {

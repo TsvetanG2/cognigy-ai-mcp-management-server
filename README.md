@@ -1,5 +1,13 @@
 # Cognigy.AI Management MCP Server
 
+[![CI](https://github.com/TsvetanG2/cognigy-ai-mcp-management-server/actions/workflows/ci.yml/badge.svg)](https://github.com/TsvetanG2/cognigy-ai-mcp-management-server/actions/workflows/ci.yml)
+[![npm version](https://img.shields.io/npm/v/cognigy-ai-mcp-management-server)](https://www.npmjs.com/package/cognigy-ai-mcp-management-server)
+[![npm downloads](https://img.shields.io/npm/dm/cognigy-ai-mcp-management-server)](https://www.npmjs.com/package/cognigy-ai-mcp-management-server)
+[![node](https://img.shields.io/node/v/cognigy-ai-mcp-management-server)](https://www.npmjs.com/package/cognigy-ai-mcp-management-server)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
+![cognigy-ai-mcp-management-server](docs/banner.png)
+
 > Model Context Protocol server for managing Cognigy.AI virtual agents through the Management API
 > 
 > This is an independent, open-source MCP server and is not affiliated with, endorsed by, or sponsored by Cognigy or NiCE. It requires your own valid Cognigy.AI account and API key, used in accordance with Cognigy's commercial license terms. "Cognigy" and "Cognigy.AI" are trademarks of their respective owners.
