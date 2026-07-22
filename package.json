@@ -61,7 +61,7 @@
     "openapi-typescript": "^7.0.0",
     "sharp": "^0.35.3",
     "tsx": "^4.0.0",
-    "typescript": "^5.9.3",
+    "typescript": "~5.9.3",
     "typescript-eslint": "^8.65.0",
     "vitest": "^4.1.7"
   }

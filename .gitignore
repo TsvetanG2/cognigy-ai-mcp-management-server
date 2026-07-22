@@ -54,6 +54,7 @@ cognigy-mcp-server-plan.md
 cognigy-mcp-glama-tasks.md
 TOOLS-INTERNAL.md
 cognigy-mcp-readme-banner-tasks.md
+fix-typescript7-build.md
 
 # MCP Publisher (do not commit binaries or auth tokens)
 mcp-publisher.exe
