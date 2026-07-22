@@ -41,6 +41,7 @@ export function registerDiffSnapshots(
     "diff_snapshots",
     "Compares two Cognigy.AI snapshots and shows what changed (added, removed, modified resources). Useful for reviewing changes before deployment or understanding what a snapshot update will affect.",
     inputSchema.shape,
+    { readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: true },
     async (args) => {
       const { snapshotIdA, snapshotIdB, resourceTypes } = inputSchema.parse(args);
 

@@ -26,6 +26,7 @@ export function registerGetFunctionInstance(
     "get_function_instance",
     "Gets detailed information about a specific Cognigy.AI Function instance. Returns execution status, timing, input parameters, and output/error.",
     inputSchema.shape,
+    { readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: true },
     async (args) => {
       const { functionId, functionInstanceId } = inputSchema.parse(args);
 

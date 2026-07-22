@@ -30,6 +30,7 @@ export function registerGetNodes(
     "get_nodes",
     "Lists all nodes in a Cognigy.AI flow. Nodes are the building blocks of conversation logic (Say, Question, If, Code, etc.). Use this to explore flow structure before reading specific nodes or modifying the flow.",
     inputSchema.shape,
+    { readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: true },
     async (args) => {
       const { flowId, limit } = inputSchema.parse(args);
 

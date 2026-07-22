@@ -33,6 +33,7 @@ export function registerListSentences(
     "list_sentences",
     "Lists example sentences (training data) for an NLU intent. Use this to review training data quality before training.",
     inputSchema.shape,
+    { readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: true },
     async (args) => {
       const { flowId, intentId, limit } = inputSchema.parse(args);
 

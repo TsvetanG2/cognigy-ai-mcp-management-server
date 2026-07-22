@@ -30,6 +30,7 @@ export function registerListEndpoints(
     "list_endpoints",
     "Lists all endpoints in a Cognigy.AI project. Endpoints are channel connectors (Webchat, REST, Voice, etc.) that expose flows/agents to users. Use this to discover deployed channels.",
     inputSchema.shape,
+    { readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: true },
     async (args) => {
       const parsed = inputSchema.parse(args);
       const projectId = parsed.projectId || config.defaultProjectId;

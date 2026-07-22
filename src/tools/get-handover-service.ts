@@ -23,6 +23,7 @@ export function registerGetHandoverService(
     "get_handover_service",
     "Gets detailed information about a specific Cognigy.AI handover service. Returns service type, configuration schema, and supported features.",
     inputSchema.shape,
+    { readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: true },
     async (args) => {
       const { serviceId } = inputSchema.parse(args);
 

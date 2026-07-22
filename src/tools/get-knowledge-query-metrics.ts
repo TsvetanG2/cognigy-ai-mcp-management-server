@@ -36,6 +36,7 @@ export function registerGetKnowledgeQueryMetrics(
     "get_knowledge_query_metrics",
     "Gets Cognigy.AI Knowledge AI query metrics. Returns aggregated knowledge search/RAG query counts for a project or entire organization.",
     inputSchema.shape,
+    { readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: true },
     async (args) => {
       const { projectId, startDate, endDate, timezone } = inputSchema.parse(args);
 

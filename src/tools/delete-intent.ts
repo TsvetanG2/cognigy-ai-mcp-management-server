@@ -30,6 +30,7 @@ export function registerDeleteIntent(
     "delete_intent",
     "Deletes an intent from a Cognigy.AI flow. MUTATING & DESTRUCTIVE: This permanently removes the intent and its example sentences. Use dryRun=true (default) to validate first. After deleting, call train_intents to retrain.",
     inputSchema.shape,
+    { readOnlyHint: false, destructiveHint: true, idempotentHint: true, openWorldHint: true },
     async (args) => {
       const { flowId, intentId, dryRun } = inputSchema.parse(args);
 

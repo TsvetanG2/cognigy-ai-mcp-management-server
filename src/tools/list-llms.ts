@@ -43,6 +43,7 @@ export function registerListLlms(
     "list_llms",
     "Lists Cognigy.AI large language model configurations. LLMs are used for generative AI features like Knowledge AI, AI Agents, and node output generation. Shows provider, model type, and connection info.",
     inputSchema.shape,
+    { readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: true },
     async (args) => {
       const { projectId, resourceLevel, filter, limit, skip } = inputSchema.parse(args);
 

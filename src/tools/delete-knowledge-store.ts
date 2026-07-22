@@ -27,6 +27,7 @@ export function registerDeleteKnowledgeStore(
     "delete_knowledge_store",
     "Deletes a Cognigy.AI knowledge store and ALL its sources and chunks. WARNING: This is destructive and cannot be undone. AI Agents using this store will lose access. MUTATING: Set dryRun=false to delete.",
     inputSchema.shape,
+    { readOnlyHint: false, destructiveHint: true, idempotentHint: true, openWorldHint: true },
     async (args) => {
       const { knowledgeStoreId, dryRun } = inputSchema.parse(args);
 

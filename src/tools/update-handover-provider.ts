@@ -17,7 +17,7 @@ const inputSchema = z.object({
     .optional()
     .describe("New name for the provider"),
   settings: z
-    .record(z.unknown())
+    .record(z.string(), z.unknown())
     .optional()
     .describe("Updated provider settings"),
   enabled: z
@@ -39,6 +39,7 @@ export function registerUpdateHandoverProvider(
     "update_handover_provider",
     "Updates an existing Cognigy.AI handover provider. Use this to change settings or enable/disable the provider. MUTATING: Set dryRun=false to update.",
     inputSchema.shape,
+    { readOnlyHint: false, destructiveHint: false, idempotentHint: true, openWorldHint: true },
     async (args) => {
       const { providerId, name, settings, enabled, dryRun } = inputSchema.parse(args);
 

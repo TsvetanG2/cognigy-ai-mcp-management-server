@@ -31,6 +31,7 @@ export function registerListTasks(
     "list_tasks",
     "Lists async tasks in Cognigy.AI. Tasks track long-running operations like snapshot creation, training, and imports. Use this to monitor background job status.",
     inputSchema.shape,
+    { readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: true },
     async (args) => {
       const parsed = inputSchema.parse(args);
       const projectId = parsed.projectId || config.defaultProjectId;

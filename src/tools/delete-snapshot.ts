@@ -48,6 +48,7 @@ export function registerDeleteSnapshot(
     "delete_snapshot",
     "Deletes a snapshot from a Cognigy.AI project. DESTRUCTIVE & IRREVERSIBLE: The snapshot and all its data will be permanently removed. Use dryRun=true (default) to validate first. Async operation.",
     inputSchema.shape,
+    { readOnlyHint: false, destructiveHint: true, idempotentHint: true, openWorldHint: true },
     async (args) => {
       const {
         snapshotId,

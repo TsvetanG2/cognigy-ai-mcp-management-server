@@ -23,6 +23,7 @@ export function registerGetKnowledgeStore(
     "get_knowledge_store",
     "Gets detailed configuration of a specific Cognigy.AI knowledge store. Returns store settings, language, embedding model, and source counts.",
     inputSchema.shape,
+    { readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: true },
     async (args) => {
       const { knowledgeStoreId } = inputSchema.parse(args);
 

@@ -27,6 +27,7 @@ export function registerDeleteConnection(
     "delete_connection",
     "Deletes a Cognigy.AI connection. WARNING: This is destructive and cannot be undone. Flows using this connection will break. MUTATING: Set dryRun=false to delete.",
     inputSchema.shape,
+    { readOnlyHint: false, destructiveHint: true, idempotentHint: true, openWorldHint: true },
     async (args) => {
       const { connectionId, dryRun } = inputSchema.parse(args);
 

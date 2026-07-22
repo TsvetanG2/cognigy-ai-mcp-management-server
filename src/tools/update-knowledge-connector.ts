@@ -34,6 +34,7 @@ export function registerUpdateKnowledgeConnector(
     "update_knowledge_connector",
     "Updates an existing Cognigy.AI knowledge connector. Use this to change settings or name. MUTATING: Set dryRun=false to update.",
     inputSchema.shape,
+    { readOnlyHint: false, destructiveHint: false, idempotentHint: true, openWorldHint: true },
     async (args) => {
       const { connectorId, knowledgeStoreId, name, dryRun } = inputSchema.parse(args);
 

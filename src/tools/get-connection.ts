@@ -24,6 +24,7 @@ export function registerGetConnection(
     "get_connection",
     "Gets detailed information about a specific Cognigy.AI connection. Returns connection metadata and schema. NOTE: Secret values are REDACTED for security - this tool only shows field names, not actual credentials.",
     inputSchema.shape,
+    { readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: true },
     async (args) => {
       const { connectionId } = inputSchema.parse(args);
 

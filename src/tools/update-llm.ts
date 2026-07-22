@@ -29,7 +29,7 @@ const inputSchema = z.object({
     .optional()
     .describe("New connection ID for credentials"),
   providerConfig: z
-    .record(z.unknown())
+    .record(z.string(), z.unknown())
     .optional()
     .describe("Provider-specific configuration updates"),
   dryRun: z
@@ -47,6 +47,7 @@ export function registerUpdateLlm(
     "update_llm",
     "Updates an existing Cognigy.AI large language model configuration. Use this to change name, description, credentials, or provider settings. MUTATING: Set dryRun=false to update.",
     inputSchema.shape,
+    { readOnlyHint: false, destructiveHint: false, idempotentHint: true, openWorldHint: true },
     async (args) => {
       const { largeLanguageModelId, name, description, isDefault, connectionId, providerConfig, dryRun } = inputSchema.parse(args);
 

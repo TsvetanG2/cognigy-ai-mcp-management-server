@@ -33,6 +33,7 @@ export function registerDeleteKnowledgeChunk(
     "delete_knowledge_chunk",
     "Deletes a Cognigy.AI knowledge chunk. The content will no longer be searchable via RAG. MUTATING: Set dryRun=false to delete.",
     inputSchema.shape,
+    { readOnlyHint: false, destructiveHint: true, idempotentHint: true, openWorldHint: true },
     async (args) => {
       const { chunkId, sourceId, knowledgeStoreId, dryRun } = inputSchema.parse(args);
 

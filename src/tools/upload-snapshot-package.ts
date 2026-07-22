@@ -56,6 +56,7 @@ export function registerUploadSnapshotPackage(
     "upload_snapshot_package",
     "Uploads a snapshot package file to a Cognigy.AI project. Use this to restore a previously downloaded snapshot or transfer a snapshot between environments. MUTATING: Set dryRun=false to upload. Async operation.",
     inputSchema.shape,
+    { readOnlyHint: false, destructiveHint: false, idempotentHint: false, openWorldHint: true },
     async (args) => {
       const {
         projectId,

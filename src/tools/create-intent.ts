@@ -58,6 +58,7 @@ export function registerCreateIntent(
     "create_intent",
     "Creates a new intent in a Cognigy.AI flow for NLU recognition. MUTATING: This modifies the flow. Use dryRun=true (default) to validate first. After creating, use train_intents to train the NLU model.",
     inputSchema.shape,
+    { readOnlyHint: false, destructiveHint: false, idempotentHint: false, openWorldHint: true },
     async (args) => {
       const {
         flowId,

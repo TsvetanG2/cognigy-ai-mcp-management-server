@@ -23,6 +23,7 @@ export function registerGetAuditEvent(
     "get_audit_event",
     "Gets detailed information about a specific Cognigy.AI audit event. Returns the full change details including before/after values.",
     inputSchema.shape,
+    { readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: true },
     async (args) => {
       const { auditEventId } = inputSchema.parse(args);
 

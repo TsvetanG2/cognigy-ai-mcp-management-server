@@ -27,6 +27,7 @@ export function registerDeleteNluConnector(
     "delete_nlu_connector",
     "Deletes a Cognigy.AI NLU connector. WARNING: Endpoints using this connector will lose NLU functionality. MUTATING: Set dryRun=false to delete.",
     inputSchema.shape,
+    { readOnlyHint: false, destructiveHint: true, idempotentHint: true, openWorldHint: true },
     async (args) => {
       const { nluConnectorId, dryRun } = inputSchema.parse(args);
 

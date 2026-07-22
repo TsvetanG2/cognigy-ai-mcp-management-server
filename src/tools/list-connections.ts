@@ -43,6 +43,7 @@ export function registerListConnections(
     "list_connections",
     "Lists Cognigy.AI connections (external service integrations like databases, APIs, etc.). Connections store credentials securely. Use this to find available connections for a project or organization.",
     inputSchema.shape,
+    { readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: true },
     async (args) => {
       const { projectId, resourceLevel, filter, limit, skip } = inputSchema.parse(args);
 

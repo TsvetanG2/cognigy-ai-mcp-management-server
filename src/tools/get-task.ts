@@ -27,6 +27,7 @@ export function registerGetTask(
     "get_task",
     "Gets detailed status of a specific Cognigy.AI async task. Returns progress, status, and failure reason if applicable. Use this to poll long-running operations to completion.",
     inputSchema.shape,
+    { readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: true },
     async (args) => {
       const parsed = inputSchema.parse(args);
       const projectId = parsed.projectId || config.defaultProjectId;

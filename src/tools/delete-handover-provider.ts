@@ -27,6 +27,7 @@ export function registerDeleteHandoverProvider(
     "delete_handover_provider",
     "Deletes a Cognigy.AI handover provider. WARNING: Endpoints using this provider will no longer be able to escalate to live agents. MUTATING: Set dryRun=false to delete.",
     inputSchema.shape,
+    { readOnlyHint: false, destructiveHint: true, idempotentHint: true, openWorldHint: true },
     async (args) => {
       const { providerId, dryRun } = inputSchema.parse(args);
 

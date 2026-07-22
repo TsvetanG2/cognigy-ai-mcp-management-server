@@ -27,6 +27,7 @@ export function registerDeleteExtension(
     "delete_extension",
     "Deletes a Cognigy.AI Extension. WARNING: Flows using nodes from this extension will break. MUTATING: Set dryRun=false to delete.",
     inputSchema.shape,
+    { readOnlyHint: false, destructiveHint: true, idempotentHint: true, openWorldHint: true },
     async (args) => {
       const { extensionId, dryRun } = inputSchema.parse(args);
 

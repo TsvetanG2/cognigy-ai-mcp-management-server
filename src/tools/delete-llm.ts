@@ -27,6 +27,7 @@ export function registerDeleteLlm(
     "delete_llm",
     "Deletes a Cognigy.AI large language model configuration. WARNING: Features using this LLM will stop working. MUTATING: Set dryRun=false to delete.",
     inputSchema.shape,
+    { readOnlyHint: false, destructiveHint: true, idempotentHint: true, openWorldHint: true },
     async (args) => {
       const { largeLanguageModelId, dryRun } = inputSchema.parse(args);
 

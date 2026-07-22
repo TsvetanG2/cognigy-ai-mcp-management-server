@@ -23,6 +23,7 @@ export function registerGetFlowSettings(
     "get_flow_settings",
     "Gets the settings/configuration of a Cognigy.AI flow. Returns NLU settings, thresholds, and other flow-level configurations. Use this before updating flow settings.",
     inputSchema.shape,
+    { readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: true },
     async (args) => {
       const { flowId } = inputSchema.parse(args);
 

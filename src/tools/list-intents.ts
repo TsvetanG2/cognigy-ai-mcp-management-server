@@ -38,6 +38,7 @@ export function registerListIntents(
     "list_intents",
     "Lists all intents in a Cognigy.AI flow. Intents are the NLU triggers that match user utterances to flow logic. Use this to explore NLU configuration before training or modifying intents.",
     inputSchema.shape,
+    { readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: true },
     async (args) => {
       const { flowId, limit, includeChildren, localeId } = inputSchema.parse(args);
 

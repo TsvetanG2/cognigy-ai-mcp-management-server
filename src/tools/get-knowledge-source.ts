@@ -26,6 +26,7 @@ export function registerGetKnowledgeSource(
     "get_knowledge_source",
     "Gets detailed information about a specific Cognigy.AI knowledge source. Returns source metadata, processing status, chunk count, and ingestion details.",
     inputSchema.shape,
+    { readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: true },
     async (args) => {
       const { sourceId, knowledgeStoreId } = inputSchema.parse(args);
 

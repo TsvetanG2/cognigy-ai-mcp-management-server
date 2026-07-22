@@ -35,6 +35,7 @@ export function registerUpdateKnowledgeStore(
     "update_knowledge_store",
     "Updates an existing Cognigy.AI knowledge store. Use this to change name or description. MUTATING: Set dryRun=false to update.",
     inputSchema.shape,
+    { readOnlyHint: false, destructiveHint: false, idempotentHint: true, openWorldHint: true },
     async (args) => {
       const { knowledgeStoreId, name, description, dryRun } = inputSchema.parse(args);
 

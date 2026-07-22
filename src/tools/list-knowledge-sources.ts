@@ -38,6 +38,7 @@ export function registerListKnowledgeSources(
     "list_knowledge_sources",
     "Lists knowledge sources in a Cognigy.AI knowledge store. Sources are documents (PDFs, web pages, text files) that have been ingested and chunked for RAG retrieval.",
     inputSchema.shape,
+    { readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: true },
     async (args) => {
       const { knowledgeStoreId, filter, limit, skip } = inputSchema.parse(args);
 

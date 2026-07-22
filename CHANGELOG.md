@@ -8,9 +8,21 @@ and this project adheres to
 
 ## [Unreleased]
 
+## [0.1.1] - 2026-07-23
+
 ### Added
 
-- (Add new tools, features, or docs here as you build them.)
+- `glama.json` for Glama MCP registry integration with server metadata
+- MCP tool annotations (`readOnlyHint`, `destructiveHint`, `idempotentHint`,
+  `openWorldHint`) on all 132 tools for behavioral transparency
+- CI workflow (`.github/workflows/ci.yml`) running lint, build, and tests on
+  push and PR
+- ESLint configuration with TypeScript support
+
+### Fixed
+
+- Zod v4 compatibility: updated `z.record()` calls to use two-argument form
+- TypeScript 5.x compatibility for ESLint tooling
 
 ## [0.1.0] - 2026-06-06
 
@@ -31,5 +43,6 @@ and this project adheres to
   required for local development).
 - Test suite (49 tests).
 
-[Unreleased]: https://github.com/TsvetanG2/cognigy-ai-mcp-management-server/compare/0.1.0...HEAD
+[Unreleased]: https://github.com/TsvetanG2/cognigy-ai-mcp-management-server/compare/0.1.1...HEAD
+[0.1.1]: https://github.com/TsvetanG2/cognigy-ai-mcp-management-server/compare/0.1.0...0.1.1
 [0.1.0]: https://github.com/TsvetanG2/cognigy-ai-mcp-management-server/releases/tag/0.1.0

@@ -39,6 +39,7 @@ export function registerListKnowledgeStores(
     "list_knowledge_stores",
     "Lists Cognigy.AI Knowledge AI stores. Knowledge stores are containers for RAG (Retrieval-Augmented Generation) content used by AI Agents to answer questions from your data.",
     inputSchema.shape,
+    { readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: true },
     async (args) => {
       const { projectId, filter, limit, skip } = inputSchema.parse(args);
 

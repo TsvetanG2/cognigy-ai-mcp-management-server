@@ -23,6 +23,7 @@ export function registerGetFlow(
     "get_flow",
     "Gets detailed metadata about a specific Cognigy.AI flow. Returns flow configuration, locale info, and timestamps. Use this to inspect a flow before modifying it.",
     inputSchema.shape,
+    { readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: true },
     async (args) => {
       const { flowId } = inputSchema.parse(args);
 

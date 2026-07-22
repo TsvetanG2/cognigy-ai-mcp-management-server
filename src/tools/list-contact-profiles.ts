@@ -39,6 +39,7 @@ export function registerListContactProfiles(
     "list_contact_profiles",
     "Lists Cognigy.AI contact profiles. Contact profiles store user data across sessions (name, preferences, conversation history metadata).",
     inputSchema.shape,
+    { readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: true },
     async (args) => {
       const { projectId, filter, limit, skip } = inputSchema.parse(args);
 

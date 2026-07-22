@@ -1,6 +1,6 @@
 {
   "name": "cognigy-ai-mcp-management-server",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "mcpName": "io.github.TsvetanG2/cognigy-ai-mcp-management-server",
   "description": "Local MCP server for managing Cognigy.AI agents via REST API",
   "type": "module",
@@ -17,7 +17,7 @@
     "gen:types": "npx openapi-typescript ./openapi.json -o src/generated/cognigy-api.d.ts",
     "mock": "prism mock ./openapi.json --port 4010",
     "update:spec": "curl -o openapi.json https://api-trial.cognigy.ai/openapi/openapi-viewer.json",
-    "lint": "eslint src --ext .ts",
+    "lint": "eslint src",
     "prepublishOnly": "npm run build"
   },
   "keywords": [
@@ -49,13 +49,18 @@
   },
   "devDependencies": {
     "@cognigy/rest-api-client": "^2026.11.0",
+    "@eslint/js": "^10.0.1",
     "@stoplight/prism-cli": "^5.0.0",
     "@types/node": "^26.0.1",
+    "@typescript-eslint/eslint-plugin": "^8.65.0",
+    "@typescript-eslint/parser": "^8.65.0",
     "dotenv": "^17.4.2",
+    "eslint": "^10.7.0",
     "msw": "^2.0.0",
     "openapi-typescript": "^7.0.0",
     "tsx": "^4.0.0",
-    "typescript": "^7.0.2",
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.65.0",
     "vitest": "^4.1.7"
   }
 }

@@ -27,6 +27,7 @@ export function registerDeleteContactProfile(
     "delete_contact_profile",
     "Deletes a Cognigy.AI contact profile. WARNING: This permanently removes all stored user data for this profile. MUTATING: Set dryRun=false to delete.",
     inputSchema.shape,
+    { readOnlyHint: false, destructiveHint: true, idempotentHint: true, openWorldHint: true },
     async (args) => {
       const { profileId, dryRun } = inputSchema.parse(args);
 

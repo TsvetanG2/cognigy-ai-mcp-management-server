@@ -33,6 +33,7 @@ export function registerRunKnowledgeConnector(
     "run_knowledge_connector",
     "Triggers a Cognigy.AI knowledge connector to run immediately. Pulls content from the external source and creates/updates knowledge chunks. MUTATING: Set dryRun=false to run.",
     inputSchema.shape,
+    { readOnlyHint: false, destructiveHint: false, idempotentHint: false, openWorldHint: true },
     async (args) => {
       const { connectorId, knowledgeStoreId, dryRun } = inputSchema.parse(args);
 

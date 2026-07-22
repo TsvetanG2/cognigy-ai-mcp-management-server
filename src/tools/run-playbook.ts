@@ -56,6 +56,7 @@ export function registerRunPlaybook(
     "run_playbook",
     "Runs a playbook test scenario against a flow. MUTATING: This executes test assertions. Use dryRun=true (default) to validate first. Returns pass/fail results with assertion details.",
     inputSchema.shape,
+    { readOnlyHint: false, destructiveHint: false, idempotentHint: false, openWorldHint: true },
     async (args) => {
       const {
         playbookId,

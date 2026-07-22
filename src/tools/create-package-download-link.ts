@@ -23,6 +23,7 @@ export function registerCreatePackageDownloadLink(
     "create_package_download_link",
     "Creates a temporary download link for a Cognigy.AI package. The link can be used to download the package file for backup or transfer. Links are time-limited.",
     inputSchema.shape,
+    { readOnlyHint: false, destructiveHint: false, idempotentHint: false, openWorldHint: true },
     async (args) => {
       const { packageId } = inputSchema.parse(args);
 

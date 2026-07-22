@@ -30,6 +30,7 @@ export function registerDeleteNode(
     "delete_node",
     "Deletes a node from a Cognigy.AI flow. MUTATING & DESTRUCTIVE: This permanently removes the node. Use dryRun=true (default) to validate first. Child nodes may also be affected.",
     inputSchema.shape,
+    { readOnlyHint: false, destructiveHint: true, idempotentHint: true, openWorldHint: true },
     async (args) => {
       const { flowId, nodeId, dryRun } = inputSchema.parse(args);
 

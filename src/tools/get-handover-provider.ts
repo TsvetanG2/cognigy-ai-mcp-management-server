@@ -23,6 +23,7 @@ export function registerGetHandoverProvider(
     "get_handover_provider",
     "Gets detailed information about a specific Cognigy.AI handover provider. Returns provider type, configuration, and connection settings.",
     inputSchema.shape,
+    { readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: true },
     async (args) => {
       const { providerId } = inputSchema.parse(args);
 

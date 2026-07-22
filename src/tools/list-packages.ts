@@ -31,6 +31,7 @@ export function registerListPackages(
     "list_packages",
     "Lists packages in a Cognigy.AI project. Packages are portable bundles of resources (flows, intents, etc.) that can be transferred between projects or environments.",
     inputSchema.shape,
+    { readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: true },
     async (args) => {
       const { projectId, limit } = inputSchema.parse(args);
 

@@ -48,6 +48,7 @@ export function registerPromoteSnapshot(
     "promote_snapshot",
     "Promotes a Cognigy.AI snapshot for deployment by packaging it and generating a download link. Use this to prepare a snapshot for transfer to another environment. MUTATING: Set dryRun=false to package. Async operation.",
     inputSchema.shape,
+    { readOnlyHint: false, destructiveHint: false, idempotentHint: false, openWorldHint: true },
     async (args) => {
       const {
         snapshotId,

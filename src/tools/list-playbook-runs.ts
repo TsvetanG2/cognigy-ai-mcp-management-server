@@ -30,6 +30,7 @@ export function registerListPlaybookRuns(
     "list_playbook_runs",
     "Lists playbook run history showing pass/fail status, timestamps, and run metadata. Use this to review test results over time.",
     inputSchema.shape,
+    { readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: true },
     async (args) => {
       const { playbookId, limit } = inputSchema.parse(args);
 

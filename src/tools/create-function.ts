@@ -28,7 +28,7 @@ const inputSchema = z.object({
     .optional()
     .describe("The function code (JavaScript/TypeScript)"),
   parameters: z
-    .record(z.unknown())
+    .record(z.string(), z.unknown())
     .optional()
     .describe("Function parameters schema"),
   dryRun: z
@@ -46,6 +46,7 @@ export function registerCreateFunction(
     "create_function",
     "Creates a new Cognigy.AI Function. Functions are custom code modules for integrations, scheduled jobs, or computations. MUTATING: Set dryRun=false to create.",
     inputSchema.shape,
+    { readOnlyHint: false, destructiveHint: false, idempotentHint: false, openWorldHint: true },
     async (args) => {
       const { projectId, name, code, dryRun } = inputSchema.parse(args);
 

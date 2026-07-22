@@ -30,6 +30,7 @@ export function registerListPlaybooks(
     "list_playbooks",
     "Lists all playbooks in a Cognigy.AI project. Playbooks are automated test scenarios with steps and assertions for testing conversational flows.",
     inputSchema.shape,
+    { readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: true },
     async (args) => {
       const { projectId, limit } = inputSchema.parse(args);
 

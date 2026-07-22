@@ -30,6 +30,7 @@ export function registerMergeContactProfiles(
     "merge_contact_profiles",
     "Merges two Cognigy.AI contact profiles into one. The source profile data is merged into the target, and all contact IDs are combined. Use when the same user has multiple profiles. MUTATING: Set dryRun=false to merge.",
     inputSchema.shape,
+    { readOnlyHint: false, destructiveHint: false, idempotentHint: false, openWorldHint: true },
     async (args) => {
       const { sourceProfileId, targetProfileId, dryRun } = inputSchema.parse(args);
 

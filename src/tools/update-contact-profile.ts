@@ -13,7 +13,7 @@ const inputSchema = z.object({
     .string()
     .describe("The contact profile ID to update"),
   profile: z
-    .record(z.unknown())
+    .record(z.string(), z.unknown())
     .optional()
     .describe("Profile data to update (merges with existing)"),
   acceptedGDPR: z
@@ -35,6 +35,7 @@ export function registerUpdateContactProfile(
     "update_contact_profile",
     "Updates an existing Cognigy.AI contact profile. Use this to modify stored user data or GDPR consent. MUTATING: Set dryRun=false to update.",
     inputSchema.shape,
+    { readOnlyHint: false, destructiveHint: false, idempotentHint: true, openWorldHint: true },
     async (args) => {
       const { profileId, profile, acceptedGDPR, dryRun } = inputSchema.parse(args);
 

@@ -23,6 +23,7 @@ export function registerGetContactProfileSchema(
     "get_contact_profile_schema",
     "Gets the contact profile schema for a Cognigy.AI project. The schema defines what custom fields can be stored in contact profiles.",
     inputSchema.shape,
+    { readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: true },
     async (args) => {
       const { projectId } = inputSchema.parse(args);
 

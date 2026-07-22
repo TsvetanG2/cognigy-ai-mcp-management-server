@@ -23,6 +23,7 @@ export function registerGetEndpoint(
     "get_endpoint",
     "Gets detailed configuration of a specific Cognigy.AI endpoint. Returns channel settings, flow/agent binding, and runtime configuration. Use this to inspect endpoint behavior.",
     inputSchema.shape,
+    { readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: true },
     async (args) => {
       const { endpointId } = inputSchema.parse(args);
 

@@ -50,6 +50,7 @@ export function registerCreateKnowledgeStore(
     "create_knowledge_store",
     "Creates a new Cognigy.AI knowledge store for RAG content. Knowledge stores contain sources (documents) that AI Agents can search to answer questions. MUTATING: Set dryRun=false to create.",
     inputSchema.shape,
+    { readOnlyHint: false, destructiveHint: false, idempotentHint: false, openWorldHint: true },
     async (args) => {
       const { projectId, name, description, language, embeddingModel, chunkSize, chunkOverlap, dryRun } = inputSchema.parse(args);
 

@@ -37,6 +37,7 @@ export function registerUpdateKnowledgeChunk(
     "update_knowledge_chunk",
     "Updates an existing Cognigy.AI knowledge chunk. If text is changed, the chunk will be re-embedded. MUTATING: Set dryRun=false to update.",
     inputSchema.shape,
+    { readOnlyHint: false, destructiveHint: false, idempotentHint: true, openWorldHint: true },
     async (args) => {
       const { chunkId, sourceId, knowledgeStoreId, text, dryRun } = inputSchema.parse(args);
 

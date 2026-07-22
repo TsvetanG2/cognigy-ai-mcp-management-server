@@ -33,6 +33,7 @@ export function registerUpdateExtensionPackage(
     "update_extension_package",
     "Updates a Cognigy.AI Extension with a new package version from a URL. Use this to upgrade an extension to a new version. MUTATING: Set dryRun=false to update.",
     inputSchema.shape,
+    { readOnlyHint: false, destructiveHint: false, idempotentHint: true, openWorldHint: true },
     async (args) => {
       const { extensionId, url, dryRun } = inputSchema.parse(args);
 

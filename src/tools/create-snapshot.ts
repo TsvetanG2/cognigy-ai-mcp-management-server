@@ -55,6 +55,7 @@ export function registerCreateSnapshot(
     "create_snapshot",
     "Creates a snapshot of a Cognigy.AI project. Snapshots capture the entire project configuration (flows, intents, endpoints, etc.) for backup or deployment. MUTATING: Set dryRun=false to create. Async operation - polls until complete.",
     inputSchema.shape,
+    { readOnlyHint: false, destructiveHint: false, idempotentHint: false, openWorldHint: true },
     async (args) => {
       const {
         projectId,

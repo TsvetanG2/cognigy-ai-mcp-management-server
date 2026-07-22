@@ -33,6 +33,7 @@ export function registerGetSnapshotResources(
     "get_snapshot_resources",
     "Lists resources (flows, locales, NLU connectors, LLMs) contained in a Cognigy.AI snapshot. Use this to inspect what a snapshot contains before restoring or to compare versions.",
     inputSchema.shape,
+    { readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: true },
     async (args) => {
       const { snapshotId, resourceType, limit } = inputSchema.parse(args);
 

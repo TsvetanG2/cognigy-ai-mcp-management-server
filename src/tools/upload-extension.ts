@@ -33,6 +33,7 @@ export function registerUploadExtension(
     "upload_extension",
     "Uploads a new Cognigy.AI Extension from a URL. The extension package must be a .tar.gz file. This is an async operation that polls until complete. MUTATING: Set dryRun=false to upload.",
     inputSchema.shape,
+    { readOnlyHint: false, destructiveHint: false, idempotentHint: false, openWorldHint: true },
     async (args) => {
       const { projectId, url, dryRun } = inputSchema.parse(args);
 

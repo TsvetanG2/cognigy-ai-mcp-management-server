@@ -23,6 +23,7 @@ export function registerGetNodeDescriptors(
     "get_node_descriptors",
     "Gets all available node types (blueprints) that can be created in a Cognigy.AI flow. Returns node type definitions including their fields, appearance, and constraints. Use this to understand what nodes can be added to a flow.",
     inputSchema.shape,
+    { readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: true },
     async (args) => {
       const { flowId } = inputSchema.parse(args);
 

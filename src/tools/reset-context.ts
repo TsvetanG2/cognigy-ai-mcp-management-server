@@ -32,6 +32,7 @@ export function registerResetContext(
     "reset_context",
     "Resets the context for a Cognigy.AI session, clearing all stored state. Use this to start a fresh conversation or clear user data during testing.",
     inputSchema.shape,
+    { readOnlyHint: false, destructiveHint: false, idempotentHint: true, openWorldHint: true },
     async (args) => {
       const { sessionId, userId, flowReferenceId, entrypoint } = inputSchema.parse(args);
 

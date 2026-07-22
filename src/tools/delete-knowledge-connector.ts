@@ -30,6 +30,7 @@ export function registerDeleteKnowledgeConnector(
     "delete_knowledge_connector",
     "Deletes a Cognigy.AI knowledge connector. Stops automated content ingestion from the external source. MUTATING: Set dryRun=false to delete.",
     inputSchema.shape,
+    { readOnlyHint: false, destructiveHint: true, idempotentHint: true, openWorldHint: true },
     async (args) => {
       const { connectorId, knowledgeStoreId, dryRun } = inputSchema.parse(args);
 

@@ -51,6 +51,7 @@ openapi.json
 # Internal development docs (not for public repo)
 CLAUDE.md
 cognigy-mcp-server-plan.md
+cognigy-mcp-glama-tasks.md
 TOOLS-INTERNAL.md
 
 # MCP Publisher (do not commit binaries or auth tokens)

@@ -39,6 +39,7 @@ export function registerListNluConnectors(
     "list_nlu_connectors",
     "Lists Cognigy.AI NLU connectors. NLU connectors enable integration with external NLU services like Dialogflow, LUIS, Watson, or custom solutions for intent recognition.",
     inputSchema.shape,
+    { readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: true },
     async (args) => {
       const { projectId, filter, limit, skip } = inputSchema.parse(args);
 

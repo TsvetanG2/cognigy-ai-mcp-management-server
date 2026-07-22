@@ -47,7 +47,7 @@ const inputSchema = z.object({
     .optional()
     .describe("Developer comment/note for this node"),
   config: z
-    .record(z.unknown())
+    .record(z.string(), z.unknown())
     .optional()
     .describe("Node-specific configuration object. Structure depends on node type."),
   extension: z
@@ -69,6 +69,7 @@ export function registerCreateNode(
     "create_node",
     "Creates a new node in a Cognigy.AI flow. MUTATING: This modifies the flow. Use dryRun=true (default) to validate first. Nodes are the building blocks of conversation logic (Say, Question, If, Code, etc.).",
     inputSchema.shape,
+    { readOnlyHint: false, destructiveHint: false, idempotentHint: false, openWorldHint: true },
     async (args) => {
       const {
         flowId,

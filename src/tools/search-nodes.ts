@@ -30,6 +30,7 @@ export function registerSearchNodes(
     "search_nodes",
     "Searches for nodes in a Cognigy.AI flow by text content. Finds nodes containing the search term in their configuration (messages, conditions, code, etc.). Use this to locate specific content within large flows.",
     inputSchema.shape,
+    { readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: true },
     async (args) => {
       const { flowId, query, localeId } = inputSchema.parse(args);
 

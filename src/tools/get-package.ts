@@ -23,6 +23,7 @@ export function registerGetPackage(
     "get_package",
     "Gets detailed information about a Cognigy.AI package including its name, description, and contained resources.",
     inputSchema.shape,
+    { readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: true },
     async (args) => {
       const { packageId } = inputSchema.parse(args);
 

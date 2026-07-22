@@ -30,6 +30,7 @@ export function registerRemoveContactId(
     "remove_contact_id",
     "Removes a contact ID from a Cognigy.AI contact profile. Use this when a user identifier should no longer be associated with a profile. MUTATING: Set dryRun=false to remove.",
     inputSchema.shape,
+    { readOnlyHint: false, destructiveHint: true, idempotentHint: true, openWorldHint: true },
     async (args) => {
       const { profileId, contactId, dryRun } = inputSchema.parse(args);
 

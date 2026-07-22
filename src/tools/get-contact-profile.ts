@@ -23,6 +23,7 @@ export function registerGetContactProfile(
     "get_contact_profile",
     "Gets detailed information about a specific Cognigy.AI contact profile. Returns stored user data, goals, and profile metadata.",
     inputSchema.shape,
+    { readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: true },
     async (args) => {
       const { profileId } = inputSchema.parse(args);
 

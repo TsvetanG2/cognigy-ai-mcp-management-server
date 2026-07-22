@@ -16,7 +16,7 @@ const inputSchema = z.object({
     .string()
     .describe("The user ID for the session"),
   context: z
-    .record(z.any())
+    .record(z.string(), z.any())
     .describe("The context object to inject (key-value pairs)"),
 });
 
@@ -29,6 +29,7 @@ export function registerInjectContext(
     "inject_context",
     "Injects context data into a Cognigy.AI session. Context is shared state accessible by flow nodes. Use this to set user data, preferences, or state before/during conversations.",
     inputSchema.shape,
+    { readOnlyHint: false, destructiveHint: false, idempotentHint: false, openWorldHint: true },
     async (args) => {
       const { sessionId, userId, context } = inputSchema.parse(args);
 

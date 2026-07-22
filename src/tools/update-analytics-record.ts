@@ -16,7 +16,7 @@ const inputSchema = z.object({
     .string()
     .describe("The session ID to update analytics for"),
   properties: z
-    .record(z.unknown())
+    .record(z.string(), z.unknown())
     .describe("Custom analytics properties to set"),
   dryRun: z
     .boolean()
@@ -33,6 +33,7 @@ export function registerUpdateAnalyticsRecord(
     "update_analytics_record",
     "Updates Cognigy.AI analytics records for a session. Use this to add custom tracking properties to conversation analytics. MUTATING: Set dryRun=false to update.",
     inputSchema.shape,
+    { readOnlyHint: false, destructiveHint: false, idempotentHint: true, openWorldHint: true },
     async (args) => {
       const { projectId, sessionId, properties, dryRun } = inputSchema.parse(args);
 

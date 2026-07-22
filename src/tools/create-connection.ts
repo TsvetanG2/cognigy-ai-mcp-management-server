@@ -19,7 +19,7 @@ const inputSchema = z.object({
     .string()
     .describe("Connection type (from extension schema, e.g., 'http-basic-auth', 'api-key', etc.)"),
   fields: z
-    .record(z.string())
+    .record(z.string(), z.string())
     .optional()
     .describe("Connection field values as key-value pairs (e.g., { apiKey: '...', baseUrl: '...' })"),
   dryRun: z
@@ -37,6 +37,7 @@ export function registerCreateConnection(
     "create_connection",
     "Creates a new Cognigy.AI connection for external service integration. Connections securely store credentials like API keys, passwords, and tokens. MUTATING: Set dryRun=false to create.",
     inputSchema.shape,
+    { readOnlyHint: false, destructiveHint: false, idempotentHint: false, openWorldHint: true },
     async (args) => {
       const { projectId, name, type, fields, dryRun } = inputSchema.parse(args);
 

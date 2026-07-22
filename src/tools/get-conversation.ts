@@ -27,6 +27,7 @@ export function registerGetConversation(
     "get_conversation",
     "Gets conversation details for a specific Cognigy.AI session. Returns all inputs/outputs, timestamps, and metadata for the session. Use this to analyze a complete conversation thread.",
     inputSchema.shape,
+    { readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: true },
     async (args) => {
       const parsed = inputSchema.parse(args);
       const projectId = parsed.projectId || config.defaultProjectId;

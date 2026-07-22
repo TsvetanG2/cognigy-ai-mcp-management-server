@@ -23,6 +23,7 @@ export function registerTestLlmConnection(
     "test_llm_connection",
     "Tests the connection to a Cognigy.AI large language model provider. Validates that the credentials are correct and the provider is reachable. Use this to verify LLM setup before using it in flows.",
     inputSchema.shape,
+    { readOnlyHint: false, destructiveHint: false, idempotentHint: false, openWorldHint: true },
     async (args) => {
       const { largeLanguageModelId } = inputSchema.parse(args);
 

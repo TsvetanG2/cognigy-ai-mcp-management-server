@@ -23,6 +23,7 @@ export function registerGetFunction(
     "get_function",
     "Gets detailed configuration of a specific Cognigy.AI Function. Returns the function code, settings, and runtime configuration.",
     inputSchema.shape,
+    { readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: true },
     async (args) => {
       const { functionId } = inputSchema.parse(args);
 

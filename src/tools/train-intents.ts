@@ -58,6 +58,7 @@ export function registerTrainIntents(
     "train_intents",
     "Trains the NLU model for a Cognigy.AI flow. MUTATING: This triggers model training. Use dryRun=true (default) to validate first. Training is async - this tool polls until completion or timeout.",
     inputSchema.shape,
+    { readOnlyHint: false, destructiveHint: false, idempotentHint: false, openWorldHint: true },
     async (args) => {
       const {
         flowId,

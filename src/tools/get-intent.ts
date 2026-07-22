@@ -30,6 +30,7 @@ export function registerGetIntent(
     "get_intent",
     "Gets detailed configuration of a specific intent in a Cognigy.AI flow. Returns the intent's conditions, rules, confirmation sentences, and settings. Use this to inspect NLU behavior before modifying.",
     inputSchema.shape,
+    { readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: true },
     async (args) => {
       const { flowId, intentId, localeId } = inputSchema.parse(args);
 

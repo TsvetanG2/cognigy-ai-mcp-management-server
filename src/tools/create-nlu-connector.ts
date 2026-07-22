@@ -19,7 +19,7 @@ const inputSchema = z.object({
     .enum(["alexa", "dialogflow", "dialogflowBuiltIn", "amazonLexBuiltIn", "luis", "watson", "noNlu", "cognigy", "code", "generativeAI", "lex"])
     .describe("The NLU connector type"),
   settings: z
-    .record(z.unknown())
+    .record(z.string(), z.unknown())
     .optional()
     .describe("Type-specific settings for the NLU connector"),
   dryRun: z
@@ -37,6 +37,7 @@ export function registerCreateNluConnector(
     "create_nlu_connector",
     "Creates a new Cognigy.AI NLU connector for external NLU service integration. Supports Dialogflow, LUIS, Watson, Alexa, Lex, and custom code connectors. MUTATING: Set dryRun=false to create.",
     inputSchema.shape,
+    { readOnlyHint: false, destructiveHint: false, idempotentHint: false, openWorldHint: true },
     async (args) => {
       const { projectId, name, type, settings, dryRun } = inputSchema.parse(args);
 

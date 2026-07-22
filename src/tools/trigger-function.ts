@@ -13,7 +13,7 @@ const inputSchema = z.object({
     .string()
     .describe("The function ID to trigger"),
   input: z
-    .record(z.unknown())
+    .record(z.string(), z.unknown())
     .optional()
     .describe("Input parameters for the function"),
   dryRun: z
@@ -31,6 +31,7 @@ export function registerTriggerFunction(
     "trigger_function",
     "Triggers a Cognigy.AI Function to run immediately. Creates a new function instance that executes the function code. MUTATING: Set dryRun=false to trigger.",
     inputSchema.shape,
+    { readOnlyHint: false, destructiveHint: false, idempotentHint: false, openWorldHint: true },
     async (args) => {
       const { functionId, input, dryRun } = inputSchema.parse(args);
 

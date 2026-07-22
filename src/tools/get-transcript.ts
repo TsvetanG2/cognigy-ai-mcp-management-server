@@ -31,6 +31,7 @@ export function registerGetTranscript(
     "get_transcript",
     "Assembles a human-readable transcript for a Cognigy.AI session. Shows the conversation flow between user and bot in chronological order. Use this for reviewing conversation quality or debugging.",
     inputSchema.shape,
+    { readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: true },
     async (args) => {
       const parsed = inputSchema.parse(args);
       const projectId = parsed.projectId || config.defaultProjectId;

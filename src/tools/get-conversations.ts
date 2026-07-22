@@ -27,6 +27,7 @@ export function registerGetConversations(
     "get_conversations",
     "Gets conversations for specific contacts in a Cognigy.AI project. Returns conversation history including inputs, outputs, and metadata. Use this to analyze user interactions.",
     inputSchema.shape,
+    { readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: true },
     async (args) => {
       const parsed = inputSchema.parse(args);
       const projectId = parsed.projectId || config.defaultProjectId;

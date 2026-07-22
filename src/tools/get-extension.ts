@@ -23,6 +23,7 @@ export function registerGetExtension(
     "get_extension",
     "Gets detailed information about a specific Cognigy.AI Extension. Returns package info, available nodes, connections schemas, and settings.",
     inputSchema.shape,
+    { readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: true },
     async (args) => {
       const { extensionId } = inputSchema.parse(args);
 

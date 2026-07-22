@@ -26,6 +26,7 @@ export function registerGetKnowledgeConnector(
     "get_knowledge_connector",
     "Gets detailed configuration of a specific Cognigy.AI knowledge connector. Returns connector type, schedule, connection settings, and run status.",
     inputSchema.shape,
+    { readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: true },
     async (args) => {
       const { connectorId, knowledgeStoreId } = inputSchema.parse(args);
 

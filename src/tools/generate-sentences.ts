@@ -37,6 +37,7 @@ export function registerGenerateSentences(
     "generate_sentences",
     "Uses Cognigy AI to generate example sentences for an intent. The generated sentences are NOT automatically added - use create_sentence to add them. Useful for quickly expanding NLU training data.",
     inputSchema.shape,
+    { readOnlyHint: false, destructiveHint: false, idempotentHint: false, openWorldHint: true },
     async (args) => {
       const { flowId, intentId, localeId, limit } = inputSchema.parse(args);
 

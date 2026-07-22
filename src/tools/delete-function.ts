@@ -27,6 +27,7 @@ export function registerDeleteFunction(
     "delete_function",
     "Deletes a Cognigy.AI Function. WARNING: This is destructive. Flows calling this function will fail. MUTATING: Set dryRun=false to delete.",
     inputSchema.shape,
+    { readOnlyHint: false, destructiveHint: true, idempotentHint: true, openWorldHint: true },
     async (args) => {
       const { functionId, dryRun } = inputSchema.parse(args);
 

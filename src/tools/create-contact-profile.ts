@@ -16,7 +16,7 @@ const inputSchema = z.object({
     .string()
     .describe("The unique contact identifier for this profile"),
   profile: z
-    .record(z.unknown())
+    .record(z.string(), z.unknown())
     .optional()
     .describe("Profile data to store (custom fields)"),
   acceptedGDPR: z
@@ -38,6 +38,7 @@ export function registerCreateContactProfile(
     "create_contact_profile",
     "Creates a new Cognigy.AI contact profile. Contact profiles persist user data across sessions for personalization. MUTATING: Set dryRun=false to create.",
     inputSchema.shape,
+    { readOnlyHint: false, destructiveHint: false, idempotentHint: false, openWorldHint: true },
     async (args) => {
       const { projectId, contactId, profile, acceptedGDPR, dryRun } = inputSchema.parse(args);
 

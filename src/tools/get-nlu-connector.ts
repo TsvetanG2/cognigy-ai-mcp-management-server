@@ -23,6 +23,7 @@ export function registerGetNluConnector(
     "get_nlu_connector",
     "Gets detailed configuration of a specific Cognigy.AI NLU connector. Returns type, settings, and connection details for external NLU service integration.",
     inputSchema.shape,
+    { readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: true },
     async (args) => {
       const { nluConnectorId } = inputSchema.parse(args);
 

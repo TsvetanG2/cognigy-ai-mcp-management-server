@@ -29,6 +29,7 @@ export function registerGetKnowledgeChunk(
     "get_knowledge_chunk",
     "Gets the full content of a specific Cognigy.AI knowledge chunk. Returns the complete text, metadata, and source information. Use this to inspect what content is being used in RAG searches.",
     inputSchema.shape,
+    { readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: true },
     async (args) => {
       const { chunkId, sourceId, knowledgeStoreId } = inputSchema.parse(args);
 

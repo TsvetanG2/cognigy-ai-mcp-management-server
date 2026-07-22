@@ -30,6 +30,7 @@ export function registerListSnapshots(
     "list_snapshots",
     "Lists all snapshots in a Cognigy.AI project. Snapshots are versioned backups of project configuration used for deployment and rollback. Use this to see available versions.",
     inputSchema.shape,
+    { readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: true },
     async (args) => {
       const parsed = inputSchema.parse(args);
       const projectId = parsed.projectId || config.defaultProjectId;

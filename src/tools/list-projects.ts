@@ -27,6 +27,7 @@ export function registerListProjects(
     "list_projects",
     "Lists all Cognigy.AI projects accessible by your API key. Use this to discover available projects before working with flows, intents, or other resources.",
     inputSchema.shape,
+    { readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: true },
     async (args) => {
       const { limit } = inputSchema.parse(args);
 

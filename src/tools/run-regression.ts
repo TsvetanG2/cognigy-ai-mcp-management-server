@@ -51,6 +51,7 @@ export function registerRunRegression(
     "run_regression",
     "Runs all playbooks in a project as a regression test suite. MUTATING: This executes tests. Use dryRun=true (default) to preview. Returns pass/fail summary with failing playbooks highlighted.",
     inputSchema.shape,
+    { readOnlyHint: false, destructiveHint: false, idempotentHint: false, openWorldHint: true },
     async (args) => {
       const {
         projectId,

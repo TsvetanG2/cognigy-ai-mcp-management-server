@@ -54,6 +54,7 @@ export function registerSearchResources(
     "search_resources",
     "Searches across all Cognigy.AI resources in the organization. Finds flows, intents, endpoints, functions, playbooks, and more by name or content. Powerful for discovering resources across projects.",
     inputSchema.shape,
+    { readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: true },
     async (args) => {
       const { query, resourceTypes, projectId, limit, skip } = inputSchema.parse(args);
 

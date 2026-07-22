@@ -23,6 +23,7 @@ export function registerCreateSnapshotDownloadLink(
     "create_snapshot_download_link",
     "Creates a temporary download link for a Cognigy.AI snapshot. The link can be used to download the snapshot as a file for backup or transfer to another environment. Links are time-limited.",
     inputSchema.shape,
+    { readOnlyHint: false, destructiveHint: false, idempotentHint: false, openWorldHint: true },
     async (args) => {
       const { snapshotId } = inputSchema.parse(args);
 

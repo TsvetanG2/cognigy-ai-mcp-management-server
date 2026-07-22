@@ -37,7 +37,7 @@ const inputSchema = z.object({
     .optional()
     .describe("Set as the default LLM for the project"),
   providerConfig: z
-    .record(z.unknown())
+    .record(z.string(), z.unknown())
     .optional()
     .describe("Provider-specific configuration (e.g., resourceName, deploymentName for Azure)"),
   dryRun: z
@@ -55,6 +55,7 @@ export function registerCreateLlm(
     "create_llm",
     "Creates a new Cognigy.AI large language model configuration. LLMs power Knowledge AI, AI Agents, and generative features. Requires a connection with provider credentials. MUTATING: Set dryRun=false to create.",
     inputSchema.shape,
+    { readOnlyHint: false, destructiveHint: false, idempotentHint: false, openWorldHint: true },
     async (args) => {
       const { projectId, name, description, provider, modelType, connectionId, modelGroup, isDefault, providerConfig, dryRun } = inputSchema.parse(args);
 

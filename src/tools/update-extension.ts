@@ -31,6 +31,7 @@ export function registerUpdateExtension(
     "update_extension",
     "Updates Cognigy.AI Extension settings like trusted code flag. Use this to enable/disable full Node.js API access. MUTATING: Set dryRun=false to update.",
     inputSchema.shape,
+    { readOnlyHint: false, destructiveHint: false, idempotentHint: true, openWorldHint: true },
     async (args) => {
       const { extensionId, trustedCode, dryRun } = inputSchema.parse(args);
 

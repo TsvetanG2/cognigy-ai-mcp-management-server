@@ -23,6 +23,7 @@ export function registerGetLlm(
     "get_llm",
     "Gets detailed configuration of a specific Cognigy.AI large language model. Returns provider settings, model type, connection details, and fallback configuration.",
     inputSchema.shape,
+    { readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: true },
     async (args) => {
       const { largeLanguageModelId } = inputSchema.parse(args);
 

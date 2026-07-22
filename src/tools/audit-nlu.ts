@@ -38,6 +38,7 @@ export function registerAuditNlu(
     "audit_nlu",
     "Audits NLU quality for a flow. Identifies intents with too few training sentences, disabled intents, and optionally checks for overlapping intents. Use this before deployment to ensure NLU quality.",
     inputSchema.shape,
+    { readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: true },
     async (args) => {
       const { flowId, minSentences, checkOverlap, projectId } =
         inputSchema.parse(args);

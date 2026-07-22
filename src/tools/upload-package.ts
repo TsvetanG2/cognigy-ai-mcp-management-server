@@ -53,6 +53,7 @@ export function registerUploadPackage(
     "upload_package",
     "Uploads a package file to a Cognigy.AI project. Use this to import a previously downloaded package or transfer resources between environments. MUTATING: Set dryRun=false to upload. Async operation.",
     inputSchema.shape,
+    { readOnlyHint: false, destructiveHint: false, idempotentHint: false, openWorldHint: true },
     async (args) => {
       const {
         projectId,

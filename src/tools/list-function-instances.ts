@@ -34,6 +34,7 @@ export function registerListFunctionInstances(
     "list_function_instances",
     "Lists running and completed instances of a Cognigy.AI Function. Shows execution history, status, and results.",
     inputSchema.shape,
+    { readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: true },
     async (args) => {
       const { functionId, limit, skip } = inputSchema.parse(args);
 

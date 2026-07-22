@@ -36,6 +36,7 @@ export function registerGetConversationMetrics(
     "get_conversation_metrics",
     "Gets Cognigy.AI conversation counter metrics. Returns aggregated conversation counts for a project or entire organization over a time period.",
     inputSchema.shape,
+    { readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: true },
     async (args) => {
       const { projectId, startDate, endDate, timezone } = inputSchema.parse(args);
 

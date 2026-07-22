@@ -38,6 +38,7 @@ export function registerListKnowledgeConnectors(
     "list_knowledge_connectors",
     "Lists Cognigy.AI knowledge connectors for automated content ingestion. Connectors can pull content from external sources like SharePoint, Confluence, or custom APIs.",
     inputSchema.shape,
+    { readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: true },
     async (args) => {
       const { knowledgeStoreId, filter, limit, skip } = inputSchema.parse(args);
 

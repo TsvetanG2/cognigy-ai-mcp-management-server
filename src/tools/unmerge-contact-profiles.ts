@@ -30,6 +30,7 @@ export function registerUnmergeContactProfiles(
     "unmerge_contact_profiles",
     "Splits a merged Cognigy.AI contact profile back into separate profiles. Use when profiles were incorrectly merged. MUTATING: Set dryRun=false to unmerge.",
     inputSchema.shape,
+    { readOnlyHint: false, destructiveHint: false, idempotentHint: false, openWorldHint: true },
     async (args) => {
       const { profileId, contactId, dryRun } = inputSchema.parse(args);
 

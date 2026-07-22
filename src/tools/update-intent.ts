@@ -66,6 +66,7 @@ export function registerUpdateIntent(
     "update_intent",
     "Updates an existing intent in a Cognigy.AI flow. MUTATING: This modifies the intent. Use dryRun=true (default) to validate first. After updating, call train_intents to retrain the NLU model.",
     inputSchema.shape,
+    { readOnlyHint: false, destructiveHint: false, idempotentHint: true, openWorldHint: true },
     async (args) => {
       const {
         flowId,

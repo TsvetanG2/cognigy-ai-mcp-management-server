@@ -19,7 +19,7 @@ const inputSchema = z.object({
     .string()
     .describe("Provider type (e.g., 'salesforce', 'genesys', 'ringcentral', 'custom')"),
   settings: z
-    .record(z.unknown())
+    .record(z.string(), z.unknown())
     .optional()
     .describe("Provider-specific configuration settings"),
   enabled: z
@@ -41,6 +41,7 @@ export function registerCreateHandoverProvider(
     "create_handover_provider",
     "Creates a new Cognigy.AI handover provider for live agent escalation. Configure providers like Salesforce, Genesys, or RingCentral. MUTATING: Set dryRun=false to create.",
     inputSchema.shape,
+    { readOnlyHint: false, destructiveHint: false, idempotentHint: false, openWorldHint: true },
     async (args) => {
       const { projectId, name, type, settings, enabled, dryRun } = inputSchema.parse(args);
 

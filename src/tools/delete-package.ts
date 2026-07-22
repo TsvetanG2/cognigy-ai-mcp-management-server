@@ -48,6 +48,7 @@ export function registerDeletePackage(
     "delete_package",
     "Deletes a package from a Cognigy.AI project. DESTRUCTIVE & IRREVERSIBLE: The package will be permanently removed. Use dryRun=true (default) to validate first. Async operation.",
     inputSchema.shape,
+    { readOnlyHint: false, destructiveHint: true, idempotentHint: true, openWorldHint: true },
     async (args) => {
       const {
         packageId,

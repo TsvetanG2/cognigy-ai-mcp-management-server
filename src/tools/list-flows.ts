@@ -30,6 +30,7 @@ export function registerListFlows(
     "list_flows",
     "Lists all flows in a Cognigy.AI project. Flows are conversation logic containers. Use this to discover flows before reading or modifying them.",
     inputSchema.shape,
+    { readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: true },
     async (args) => {
       const parsed = inputSchema.parse(args);
       const projectId = parsed.projectId || config.defaultProjectId;

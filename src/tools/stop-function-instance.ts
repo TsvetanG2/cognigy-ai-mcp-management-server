@@ -30,6 +30,7 @@ export function registerStopFunctionInstance(
     "stop_function_instance",
     "Stops a running Cognigy.AI Function instance. Use this to cancel a long-running or stuck function. MUTATING: Set dryRun=false to stop.",
     inputSchema.shape,
+    { readOnlyHint: false, destructiveHint: false, idempotentHint: false, openWorldHint: true },
     async (args) => {
       const { functionId, functionInstanceId, dryRun } = inputSchema.parse(args);
 

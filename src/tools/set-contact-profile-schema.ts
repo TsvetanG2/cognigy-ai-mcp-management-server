@@ -34,6 +34,7 @@ export function registerSetContactProfileSchema(
     "set_contact_profile_schema",
     "Sets the contact profile schema for a Cognigy.AI project. Defines what custom fields can be stored in contact profiles. MUTATING: Set dryRun=false to update.",
     inputSchema.shape,
+    { readOnlyHint: false, destructiveHint: false, idempotentHint: true, openWorldHint: true },
     async (args) => {
       const { projectId, schema, dryRun } = inputSchema.parse(args);
 

@@ -30,6 +30,7 @@ export function registerDeleteKnowledgeSource(
     "delete_knowledge_source",
     "Deletes a Cognigy.AI knowledge source and all its chunks. WARNING: This is destructive. The document content will no longer be searchable. MUTATING: Set dryRun=false to delete.",
     inputSchema.shape,
+    { readOnlyHint: false, destructiveHint: true, idempotentHint: true, openWorldHint: true },
     async (args) => {
       const { sourceId, knowledgeStoreId, dryRun } = inputSchema.parse(args);
 

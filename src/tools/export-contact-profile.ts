@@ -23,6 +23,7 @@ export function registerExportContactProfile(
     "export_contact_profile",
     "Exports all data for a Cognigy.AI contact profile. Use this for GDPR data access requests. Returns all stored profile data in a portable format.",
     inputSchema.shape,
+    { readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: true },
     async (args) => {
       const { profileId } = inputSchema.parse(args);
 

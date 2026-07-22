@@ -23,7 +23,7 @@ const inputSchema = z.object({
     .optional()
     .describe("Connection ID for authentication"),
   settings: z
-    .record(z.unknown())
+    .record(z.string(), z.unknown())
     .optional()
     .describe("Type-specific connector settings"),
   schedule: z
@@ -45,6 +45,7 @@ export function registerCreateKnowledgeConnector(
     "create_knowledge_connector",
     "Creates a new Cognigy.AI knowledge connector for automated content ingestion from external sources like SharePoint or Confluence. MUTATING: Set dryRun=false to create.",
     inputSchema.shape,
+    { readOnlyHint: false, destructiveHint: false, idempotentHint: false, openWorldHint: true },
     async (args) => {
       const { knowledgeStoreId, name, type, connectionId, settings, schedule, dryRun } = inputSchema.parse(args);
 

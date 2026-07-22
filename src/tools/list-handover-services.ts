@@ -31,6 +31,7 @@ export function registerListHandoverServices(
     "list_handover_services",
     "Lists available Cognigy.AI handover services. Handover services are the supported integrations for live agent escalation.",
     inputSchema.shape,
+    { readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: true },
     async (args) => {
       const { limit, skip } = inputSchema.parse(args);
 

@@ -25,7 +25,7 @@ const inputSchema = z.object({
     .optional()
     .describe("Updated function code"),
   parameters: z
-    .record(z.unknown())
+    .record(z.string(), z.unknown())
     .optional()
     .describe("Updated parameters schema"),
   dryRun: z
@@ -43,6 +43,7 @@ export function registerUpdateFunction(
     "update_function",
     "Updates an existing Cognigy.AI Function. Use this to change code, name, or parameters. MUTATING: Set dryRun=false to update.",
     inputSchema.shape,
+    { readOnlyHint: false, destructiveHint: false, idempotentHint: true, openWorldHint: true },
     async (args) => {
       const { functionId, name, code, parameters, dryRun } = inputSchema.parse(args);
 

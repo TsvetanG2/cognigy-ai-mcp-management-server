@@ -32,7 +32,7 @@ const inputSchema = z.object({
     .optional()
     .describe("Text content to ingest (for type 'manual')"),
   metadata: z
-    .record(z.string())
+    .record(z.string(), z.string())
     .optional()
     .describe("Custom metadata to attach to all chunks from this source"),
   dryRun: z
@@ -50,6 +50,7 @@ export function registerCreateKnowledgeSource(
     "create_knowledge_source",
     "Creates a new Cognigy.AI knowledge source for RAG content ingestion. Sources can be URLs, uploaded files, or manual text. Content is automatically chunked and embedded. MUTATING: Set dryRun=false to create.",
     inputSchema.shape,
+    { readOnlyHint: false, destructiveHint: false, idempotentHint: false, openWorldHint: true },
     async (args) => {
       const { knowledgeStoreId, name, description, type, url, text, metadata, dryRun } = inputSchema.parse(args);
 

@@ -48,6 +48,7 @@ export function registerRestoreSnapshot(
     "restore_snapshot",
     "Restores a snapshot to its Cognigy.AI project, replacing the current configuration. DESTRUCTIVE: Current project state will be overwritten with the snapshot's state. Use dryRun=true (default) to validate first. Async operation.",
     inputSchema.shape,
+    { readOnlyHint: false, destructiveHint: true, idempotentHint: false, openWorldHint: true },
     async (args) => {
       const {
         snapshotId,

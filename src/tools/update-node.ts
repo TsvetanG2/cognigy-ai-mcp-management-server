@@ -32,7 +32,7 @@ const inputSchema = z.object({
     .optional()
     .describe("Whether the node is disabled (skipped during execution)"),
   config: z
-    .record(z.unknown())
+    .record(z.string(), z.unknown())
     .optional()
     .describe("Node-specific configuration to update. Structure depends on node type. Only provided fields are updated."),
   localeId: z
@@ -54,6 +54,7 @@ export function registerUpdateNode(
     "update_node",
     "Updates an existing node in a Cognigy.AI flow. MUTATING: This modifies the node. Use dryRun=true (default) to validate first. Only provided fields are updated; others remain unchanged.",
     inputSchema.shape,
+    { readOnlyHint: false, destructiveHint: false, idempotentHint: true, openWorldHint: true },
     async (args) => {
       const {
         flowId,

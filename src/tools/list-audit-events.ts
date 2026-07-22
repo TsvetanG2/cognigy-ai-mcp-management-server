@@ -55,6 +55,7 @@ export function registerListAuditEvents(
     "list_audit_events",
     "Lists Cognigy.AI audit events. Audit events track all changes made to resources (flows, intents, endpoints, etc.) by users. Useful for compliance and debugging.",
     inputSchema.shape,
+    { readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: true },
     async (args) => {
       const { projectId, userId, eventType, resourceType, startDate, endDate, limit, skip } = inputSchema.parse(args);
 

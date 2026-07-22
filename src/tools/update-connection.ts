@@ -17,7 +17,7 @@ const inputSchema = z.object({
     .optional()
     .describe("New name for the connection"),
   fields: z
-    .record(z.string())
+    .record(z.string(), z.string())
     .optional()
     .describe("Connection field values to update as key-value pairs"),
   dryRun: z
@@ -35,6 +35,7 @@ export function registerUpdateConnection(
     "update_connection",
     "Updates an existing Cognigy.AI connection. Use this to change connection name or update credential values. MUTATING: Set dryRun=false to update.",
     inputSchema.shape,
+    { readOnlyHint: false, destructiveHint: false, idempotentHint: true, openWorldHint: true },
     async (args) => {
       const { connectionId, name, fields, dryRun } = inputSchema.parse(args);
 

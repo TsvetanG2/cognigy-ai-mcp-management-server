@@ -39,6 +39,7 @@ export function registerListFunctions(
     "list_functions",
     "Lists Cognigy.AI Functions. Functions are custom code modules that can be triggered to run computations, integrations, or scheduled jobs outside of flow execution.",
     inputSchema.shape,
+    { readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: true },
     async (args) => {
       const { projectId, filter, limit, skip } = inputSchema.parse(args);
 

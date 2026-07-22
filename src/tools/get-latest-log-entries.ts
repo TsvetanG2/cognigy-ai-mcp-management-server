@@ -40,6 +40,7 @@ export function registerGetLatestLogEntries(
     "get_latest_log_entries",
     "Gets the latest execution log entries from a Cognigy.AI project. Use this for debugging flow execution, viewing errors, or monitoring agent behavior.",
     inputSchema.shape,
+    { readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: true },
     async (args) => {
       const parsed = inputSchema.parse(args);
       const projectId = parsed.projectId || config.defaultProjectId;

@@ -59,6 +59,7 @@ export function registerCreatePackage(
     "create_package",
     "Creates a package from selected resources in a Cognigy.AI project. Packages bundle flows, endpoints, and other resources for transfer between projects. MUTATING: Set dryRun=false to create. Async operation.",
     inputSchema.shape,
+    { readOnlyHint: false, destructiveHint: false, idempotentHint: false, openWorldHint: true },
     async (args) => {
       const {
         projectId,

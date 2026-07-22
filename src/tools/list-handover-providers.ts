@@ -35,6 +35,7 @@ export function registerListHandoverProviders(
     "list_handover_providers",
     "Lists Cognigy.AI handover providers. Handover providers enable live agent escalation (e.g., Salesforce, Genesys, RingCentral).",
     inputSchema.shape,
+    { readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: true },
     async (args) => {
       const { projectId, limit, skip } = inputSchema.parse(args);
 

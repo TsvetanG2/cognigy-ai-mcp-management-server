@@ -42,6 +42,7 @@ export function registerListKnowledgeChunks(
     "list_knowledge_chunks",
     "Lists knowledge chunks in a Cognigy.AI knowledge store. Chunks are the actual text segments used for RAG retrieval, created by splitting source documents.",
     inputSchema.shape,
+    { readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: true },
     async (args) => {
       const { knowledgeStoreId, sourceId, filter, limit, skip } = inputSchema.parse(args);
 

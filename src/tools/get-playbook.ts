@@ -23,6 +23,7 @@ export function registerGetPlaybook(
     "get_playbook",
     "Gets detailed playbook configuration including all steps and assertions. Use this to understand what a playbook tests before running it.",
     inputSchema.shape,
+    { readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: true },
     async (args) => {
       const { playbookId } = inputSchema.parse(args);
 

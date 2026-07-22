@@ -17,7 +17,7 @@ const inputSchema = z.object({
     .optional()
     .describe("New name for the NLU connector"),
   settings: z
-    .record(z.unknown())
+    .record(z.string(), z.unknown())
     .optional()
     .describe("Type-specific settings to update"),
   dryRun: z
@@ -35,6 +35,7 @@ export function registerUpdateNluConnector(
     "update_nlu_connector",
     "Updates an existing Cognigy.AI NLU connector. Use this to change name or update type-specific settings. MUTATING: Set dryRun=false to update.",
     inputSchema.shape,
+    { readOnlyHint: false, destructiveHint: false, idempotentHint: true, openWorldHint: true },
     async (args) => {
       const { nluConnectorId, name, settings, dryRun } = inputSchema.parse(args);
 

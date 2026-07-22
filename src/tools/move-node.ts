@@ -50,6 +50,7 @@ export function registerMoveNode(
     "move_node",
     "Moves a node to a new position in a Cognigy.AI flow. MUTATING: This reorganizes the flow structure. Use dryRun=true (default) to validate first. Moving nodes affects execution order.",
     inputSchema.shape,
+    { readOnlyHint: false, destructiveHint: false, idempotentHint: false, openWorldHint: true },
     async (args) => {
       const { flowId, nodeId, targetNodeId, mode, position, dryRun } =
         inputSchema.parse(args);

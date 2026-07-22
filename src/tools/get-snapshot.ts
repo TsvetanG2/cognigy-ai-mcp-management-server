@@ -23,6 +23,7 @@ export function registerGetSnapshot(
     "get_snapshot",
     "Gets detailed information about a specific Cognigy.AI snapshot. Returns name, description, hash, and packaging status. Use this to inspect a version before deployment.",
     inputSchema.shape,
+    { readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: true },
     async (args) => {
       const { snapshotId } = inputSchema.parse(args);
 

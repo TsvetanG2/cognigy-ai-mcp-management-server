@@ -23,7 +23,7 @@ const inputSchema = z.object({
     .string()
     .describe("The text content of the chunk"),
   metadata: z
-    .record(z.string())
+    .record(z.string(), z.string())
     .optional()
     .describe("Custom metadata for the chunk"),
   dryRun: z
@@ -41,6 +41,7 @@ export function registerCreateKnowledgeChunk(
     "create_knowledge_chunk",
     "Creates a new Cognigy.AI knowledge chunk manually. Use this to add specific text segments that should be searchable via RAG. The chunk will be embedded automatically. MUTATING: Set dryRun=false to create.",
     inputSchema.shape,
+    { readOnlyHint: false, destructiveHint: false, idempotentHint: false, openWorldHint: true },
     async (args) => {
       const { knowledgeStoreId, sourceId, title, text, metadata, dryRun } = inputSchema.parse(args);
 

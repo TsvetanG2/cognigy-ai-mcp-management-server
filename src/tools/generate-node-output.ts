@@ -46,6 +46,7 @@ export function registerGenerateNodeOutput(
     "generate_node_output",
     "Uses Cognigy's generative AI to create content for Say nodes. Generates either plain text messages or rich Adaptive Cards based on a natural language prompt. Returns content you can use with create_node or update_node.",
     inputSchema.shape,
+    { readOnlyHint: true, destructiveHint: false, idempotentHint: false, openWorldHint: true },
     async (args) => {
       const {
         flowId,

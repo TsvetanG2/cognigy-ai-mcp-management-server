@@ -39,6 +39,7 @@ export function registerListExtensions(
     "list_extensions",
     "Lists Cognigy.AI Extensions. Extensions are custom node packages that add new capabilities to flows (e.g., integrations, custom actions).",
     inputSchema.shape,
+    { readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: true },
     async (args) => {
       const { projectId, filter, limit, skip } = inputSchema.parse(args);
 

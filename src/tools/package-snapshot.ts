@@ -48,6 +48,7 @@ export function registerPackageSnapshot(
     "package_snapshot",
     "Packages a Cognigy.AI snapshot for download or transfer. Creates a downloadable package from the snapshot. Use create_snapshot_download_link after packaging to get the download URL. MUTATING: Set dryRun=false to package. Async operation.",
     inputSchema.shape,
+    { readOnlyHint: false, destructiveHint: false, idempotentHint: false, openWorldHint: true },
     async (args) => {
       const {
         snapshotId,

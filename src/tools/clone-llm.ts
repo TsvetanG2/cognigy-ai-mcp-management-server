@@ -27,6 +27,7 @@ export function registerCloneLlm(
     "clone_llm",
     "Clones a Cognigy.AI large language model configuration. Creates a copy with the same settings that can be modified independently. MUTATING: Set dryRun=false to clone.",
     inputSchema.shape,
+    { readOnlyHint: false, destructiveHint: false, idempotentHint: false, openWorldHint: true },
     async (args) => {
       const { largeLanguageModelId, dryRun } = inputSchema.parse(args);
 

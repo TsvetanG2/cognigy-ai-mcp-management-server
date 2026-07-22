@@ -36,6 +36,7 @@ export function registerCreateSentence(
     "create_sentence",
     "Creates a new example sentence for NLU intent training. MUTATING: This modifies the intent's training data. Use dryRun=true (default) to validate first. After creating, call train_intents to retrain.",
     inputSchema.shape,
+    { readOnlyHint: false, destructiveHint: false, idempotentHint: false, openWorldHint: true },
     async (args) => {
       const { flowId, intentId, localeId, text, dryRun } = inputSchema.parse(args);
 

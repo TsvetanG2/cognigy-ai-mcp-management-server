@@ -25,9 +25,10 @@ function captureToolHandler(server: McpServer, toolName: string) {
   const toolCalls: Array<{ name: string; handler: Function }> = [];
   const originalTool = server.tool.bind(server);
 
-  vi.spyOn(server, "tool").mockImplementation((name, description, schema, handler) => {
-    toolCalls.push({ name: name as string, handler: handler as Function });
-    return originalTool(name, description, schema, handler);
+  vi.spyOn(server, "tool").mockImplementation((...args: unknown[]) => {
+    const handler = args[args.length - 1] as Function;
+    toolCalls.push({ name: args[0] as string, handler });
+    return (originalTool as Function)(...args);
   });
 
   return () => {

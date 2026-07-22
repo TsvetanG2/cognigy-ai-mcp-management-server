@@ -27,6 +27,7 @@ export function registerCloneFlow(
     "clone_flow",
     "Clones a Cognigy.AI flow within the same project. Creates an exact copy of the flow including all nodes, intents, and configurations. The cloned flow gets an auto-generated name. MUTATING: Set dryRun=false to clone.",
     inputSchema.shape,
+    { readOnlyHint: false, destructiveHint: false, idempotentHint: false, openWorldHint: true },
     async (args) => {
       const { flowId, dryRun } = inputSchema.parse(args);
 

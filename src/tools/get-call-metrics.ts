@@ -36,6 +36,7 @@ export function registerGetCallMetrics(
     "get_call_metrics",
     "Gets Cognigy.AI call counter metrics (Voice Gateway). Returns aggregated call counts for a project or entire organization over a time period.",
     inputSchema.shape,
+    { readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: true },
     async (args) => {
       const { projectId, startDate, endDate, timezone } = inputSchema.parse(args);
 

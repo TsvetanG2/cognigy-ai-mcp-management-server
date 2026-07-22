@@ -86,6 +86,7 @@ export function registerMergePackage(
     "merge_package",
     "Merges a package into a Cognigy.AI project, importing selected resources. Use localeMapping to map package locales to project locales. MUTATING: Set dryRun=false to merge. Async operation.",
     inputSchema.shape,
+    { readOnlyHint: false, destructiveHint: false, idempotentHint: false, openWorldHint: true },
     async (args) => {
       const {
         packageId,
