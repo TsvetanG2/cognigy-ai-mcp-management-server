@@ -18,7 +18,7 @@ async function main() {
 
   const server = new McpServer({
     name: "cognigy-ai-mcp",
-    version: "0.1.0",
+    version: "0.1.2",
   });
 
   registerTools(server, cognigyClient, config);

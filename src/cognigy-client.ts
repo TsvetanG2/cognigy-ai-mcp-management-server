@@ -41,12 +41,10 @@ function patchHttpAdapterForGetRequests(client: any, config: Config): void {
   const httpAdapter = client.getHttpAdapter();
   const originalConvertRequest = httpAdapter.convertRequest.bind(httpAdapter);
 
-  httpAdapter.convertRequest = async function (
+httpAdapter.convertRequest = async function (
     request: Parameters<typeof originalConvertRequest>[0],
     clientArg: Parameters<typeof originalConvertRequest>[1]
   ) {
-    const axiosConfig = await originalConvertRequest(request, clientArg);
-
     if (!config.isConfigured) {
       throw new Error(
         "Cognigy credentials not configured. Set COGNIGY_BASE_URL and COGNIGY_API_KEY."
@@ -54,6 +52,7 @@ function patchHttpAdapterForGetRequests(client: any, config: Config): void {
     }
 
     const axiosConfig = await originalConvertRequest(request, clientArg);
+
     // Remove body/data from GET requests
     if (axiosConfig.method === "GET") {
       delete axiosConfig.data;

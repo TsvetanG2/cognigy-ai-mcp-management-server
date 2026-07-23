@@ -1,6 +1,6 @@
 {
   "name": "cognigy-ai-mcp-management-server",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "mcpName": "io.github.TsvetanG2/cognigy-ai-mcp-management-server",
   "description": "Local MCP server for managing Cognigy.AI agents via REST API",
   "type": "module",
