@@ -7,22 +7,18 @@ export interface Config {
   cognigyBaseUrl: string;
   cognigyApiKey: string;
   defaultProjectId?: string;
-}
-
-function getEnvVar(name: string, required: true): string;
-function getEnvVar(name: string, required: false): string | undefined;
-function getEnvVar(name: string, required: boolean): string | undefined {
-  const value = process.env[name];
-  if (required && !value) {
-    throw new Error(`Missing required environment variable: ${name}`);
-  }
-  return value;
+  /** False when credentials are missing — the server still starts so tools/list works. */
+  isConfigured: boolean;
 }
 
 export function loadConfig(): Config {
+  const baseUrl = process.env.COGNIGY_BASE_URL;
+  const apiKey = process.env.COGNIGY_API_KEY;
+
   return {
-    cognigyBaseUrl: getEnvVar("COGNIGY_BASE_URL", true),
-    cognigyApiKey: getEnvVar("COGNIGY_API_KEY", true),
-    defaultProjectId: getEnvVar("COGNIGY_DEFAULT_PROJECT_ID", false),
+    cognigyBaseUrl: baseUrl ?? "",
+    cognigyApiKey: apiKey ?? "",
+    defaultProjectId: process.env.COGNIGY_DEFAULT_PROJECT_ID,
+    isConfigured: Boolean(baseUrl && apiKey),
   };
 }
