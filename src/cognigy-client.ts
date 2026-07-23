@@ -22,7 +22,7 @@ export function createCognigyClient(config: Config) {
   // which causes Cognigy Trial (and possibly other environments) to
   // return 403 Forbidden. We patch the HTTP adapter to remove the body
   // from GET requests.
-  patchHttpAdapterForGetRequests(client);
+  patchHttpAdapterForGetRequests(client, config);
 
   return client;
 }
@@ -37,7 +37,7 @@ export function createCognigyClient(config: Config) {
  * 403 Forbidden.
  */
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-function patchHttpAdapterForGetRequests(client: any): void {
+function patchHttpAdapterForGetRequests(client: any, config: Config): void {
   const httpAdapter = client.getHttpAdapter();
   const originalConvertRequest = httpAdapter.convertRequest.bind(httpAdapter);
 
@@ -47,6 +47,13 @@ function patchHttpAdapterForGetRequests(client: any): void {
   ) {
     const axiosConfig = await originalConvertRequest(request, clientArg);
 
+    if (!config.isConfigured) {
+      throw new Error(
+        "Cognigy credentials not configured. Set COGNIGY_BASE_URL and COGNIGY_API_KEY."
+      );
+    }
+
+    const axiosConfig = await originalConvertRequest(request, clientArg);
     // Remove body/data from GET requests
     if (axiosConfig.method === "GET") {
       delete axiosConfig.data;
