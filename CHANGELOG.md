@@ -6,6 +6,19 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.1.3] - 2026-07-27
+
+### Added
+
+- Published to the official MCP Registry (registry.modelcontextprotocol.io)
+- Automated MCP Registry publishing in CI workflow via `mcp-publisher`
+
+### Changed
+
+- Publish workflow now publishes to both npm and MCP Registry
+- Fixed `NODE_AUTH_TOKEN` placement in publish workflow (was at job level instead of step level)
+- Removed `npm install -g npm@latest` from workflow (caused EBADENGINE on Node 22)
+
 ## [0.1.2] - 2026-07-23
 
 ### Fixed
@@ -64,7 +77,8 @@ and this project adheres to
   required for local development).
 - Test suite (49 tests).
 
-[Unreleased]: https://github.com/TsvetanG2/cognigy-ai-mcp-management-server/compare/0.1.1...HEAD
-[0.1.1]: https://github.com/TsvetanG2/cognigy-ai-mcp-management-server/compare/0.1.0...0.1.1
-[0.1.0]: https://github.com/TsvetanG2/cognigy-ai-mcp-management-server/releases/tag/0.1.0
+[Unreleased]: https://github.com/TsvetanG2/cognigy-ai-mcp-management-server/compare/v0.1.3...HEAD
+[0.1.3]: https://github.com/TsvetanG2/cognigy-ai-mcp-management-server/compare/v0.1.2...v0.1.3
 [0.1.2]: https://github.com/TsvetanG2/cognigy-ai-mcp-management-server/compare/v0.1.1...v0.1.2
+[0.1.1]: https://github.com/TsvetanG2/cognigy-ai-mcp-management-server/compare/v0.1.0...v0.1.1
+[0.1.0]: https://github.com/TsvetanG2/cognigy-ai-mcp-management-server/releases/tag/v0.1.0
