@@ -1,17 +1,17 @@
 {
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
   "name": "io.github.TsvetanG2/cognigy-ai-mcp-management-server",
-  "description": "MCP server for managing Cognigy.AI virtual agents - create flows, train NLU, deploy snapshots, and more via natural language",
+  "description": "MCP server for Cognigy.AI - 132 tools to build, configure & operate conversational AI agents",
   "repository": {
     "url": "https://github.com/TsvetanG2/cognigy-ai-mcp-management-server",
     "source": "github"
   },
-  "version": "0.1.3",
+  "version": "0.1.4",
   "packages": [
     {
       "registryType": "npm",
       "identifier": "cognigy-ai-mcp-management-server",
-      "version": "0.1.3",
+      "version": "0.1.4",
       "transport": {
         "type": "stdio"
       },

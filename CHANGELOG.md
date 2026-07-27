@@ -6,7 +6,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [0.1.3] - 2026-07-27
+## [0.1.4] - 2026-07-27
 
 ### Added
 
@@ -18,6 +18,13 @@ and this project adheres to
 - Publish workflow now publishes to both npm and MCP Registry
 - Fixed `NODE_AUTH_TOKEN` placement in publish workflow (was at job level instead of step level)
 - Removed `npm install -g npm@latest` from workflow (caused EBADENGINE on Node 22)
+- Shortened server.json description to meet Registry 100-char limit
+
+## [0.1.3] - 2026-07-27
+
+### Changed
+
+- Version bump (failed Registry publish due to description length)
 
 ## [0.1.2] - 2026-07-23
 
@@ -77,7 +84,8 @@ and this project adheres to
   required for local development).
 - Test suite (49 tests).
 
-[Unreleased]: https://github.com/TsvetanG2/cognigy-ai-mcp-management-server/compare/v0.1.3...HEAD
+[Unreleased]: https://github.com/TsvetanG2/cognigy-ai-mcp-management-server/compare/v0.1.4...HEAD
+[0.1.4]: https://github.com/TsvetanG2/cognigy-ai-mcp-management-server/compare/v0.1.3...v0.1.4
 [0.1.3]: https://github.com/TsvetanG2/cognigy-ai-mcp-management-server/compare/v0.1.2...v0.1.3
 [0.1.2]: https://github.com/TsvetanG2/cognigy-ai-mcp-management-server/compare/v0.1.1...v0.1.2
 [0.1.1]: https://github.com/TsvetanG2/cognigy-ai-mcp-management-server/compare/v0.1.0...v0.1.1
