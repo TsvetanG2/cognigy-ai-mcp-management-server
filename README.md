@@ -6,6 +6,7 @@
 [![node](https://img.shields.io/node/v/cognigy-ai-mcp-management-server)](https://www.npmjs.com/package/cognigy-ai-mcp-management-server)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Glama Score](https://glama.ai/mcp/servers/TsvetanG2/cognigy-ai-mcp-management-server/badges/score.svg)](https://glama.ai/mcp/servers/TsvetanG2/cognigy-ai-mcp-management-server)
+[![MCP Registry](https://img.shields.io/badge/MCP-Registry-blue)](https://registry.modelcontextprotocol.io/v0/servers?search=io.github.TsvetanG2/cognigy-ai-mcp-management-server)
 
 ![cognigy-ai-mcp-management-server](docs/banner.png)
 
