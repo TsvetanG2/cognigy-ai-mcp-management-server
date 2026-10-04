@@ -20,7 +20,14 @@ jobs:
           registry-url: 'https://registry.npmjs.org'
       - run: npm ci
       - run: npm run build
-      - run: npm publish
+      - name: Publish to npm (skipped if this version is already published)
+        run: |
+          VERSION=$(node -p "require('./package.json').version")
+          if npm view "cognigy-ai-mcp-management-server@$VERSION" version > /dev/null 2>&1; then
+            echo "Version $VERSION is already on npm, skipping npm publish"
+          else
+            npm publish
+          fi
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
@@ -31,4 +38,12 @@ jobs:
       - name: Publish to MCP Registry
         run: |
           ./mcp-publisher login github-oidc
-          ./mcp-publisher publish
+          # A fresh npm release can take a moment to become visible to the registry, so retry
+          for attempt in 1 2 3 4 5; do
+            if ./mcp-publisher publish; then
+              exit 0
+            fi
+            echo "Attempt $attempt failed, retrying in 30s..."
+            sleep 30
+          done
+          exit 1
