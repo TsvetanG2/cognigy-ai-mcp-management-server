@@ -50,6 +50,7 @@ openapi.json
 
 # Internal development docs (not for public repo)
 CLAUDE.md
+session-log.md
 cognigy-mcp-server-plan.md
 cognigy-mcp-glama-tasks.md
 TOOLS-INTERNAL.md
