@@ -20,13 +20,9 @@ up and what's expected of contributions.
 
 ### Mock-first development
 
-You don't need a Cognigy account to develop. Run against the Prism mock server:
+You don't need a Cognigy account to develop. The tests mock the Cognigy API with msw:
 
 ```bash
-# Terminal 1: start the mock server
-npm run mock
-
-# Terminal 2: run the tests
 npm test
 ```
 

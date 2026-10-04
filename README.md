@@ -165,18 +165,6 @@ This server provides **132 MCP tools** organized by domain:
 
 ## Development & Testing
 
-### Mock-first Development
-
-Run against Prism mock server (no Cognigy account needed):
-
-```bash
-# Terminal 1: Start mock server
-npm run mock
-
-# Terminal 2: Run tests
-npm test
-```
-
 ### Live API Testing
 
 ```bash

@@ -1,4 +1,0 @@
-allowBuilds:
-  '@scarf/scarf': false
-  esbuild: false
-  msw: false
