@@ -8,6 +8,20 @@ and this project adheres to
 
 ## [Unreleased]
 
+## [0.2.1] - 2026-10-05
+
+### Fixed
+
+- `upload_package` and `upload_snapshot_package` now send the real file name;
+  previously the client labelled every upload `fake.txt`.
+
+### Changed
+
+- `merge_package` documents a known limitation: in live testing every merge
+  failed with "Resource with id ... is not in the source", and the public API
+  cannot list a package's resources. On that error the tool now returns a hint
+  to import the package in the Cognigy.AI UI instead.
+
 ## [0.2.0] - 2026-10-05
 
 Fixes found by running the tools against a live Cognigy.AI trial environment.
@@ -146,7 +160,8 @@ Fixes found by running the tools against a live Cognigy.AI trial environment.
   required for local development).
 - Test suite (49 tests).
 
-[Unreleased]: https://github.com/TsvetanG2/cognigy-ai-mcp-management-server/compare/v0.2.0...HEAD
+[Unreleased]: https://github.com/TsvetanG2/cognigy-ai-mcp-management-server/compare/v0.2.1...HEAD
+[0.2.1]: https://github.com/TsvetanG2/cognigy-ai-mcp-management-server/compare/v0.2.0...v0.2.1
 [0.2.0]: https://github.com/TsvetanG2/cognigy-ai-mcp-management-server/compare/v0.1.4...v0.2.0
 [0.1.4]: https://github.com/TsvetanG2/cognigy-ai-mcp-management-server/compare/v0.1.3...v0.1.4
 [0.1.3]: https://github.com/TsvetanG2/cognigy-ai-mcp-management-server/compare/v0.1.2...v0.1.3

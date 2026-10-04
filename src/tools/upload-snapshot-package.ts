@@ -10,6 +10,7 @@
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { z } from "zod";
 import { readFile } from "fs/promises";
+import { basename } from "path";
 import { existsSync } from "fs";
 import type { CognigyClient } from "../cognigy-client.js";
 import type { Config } from "../config.js";
@@ -115,10 +116,12 @@ export function registerUploadSnapshotPackage(
       const fileBuffer = await readFile(filePath);
 
       // Start the upload task
+      // Pass the real file name; without it the client labels every upload "fake.txt"
       const taskResponse = await client.uploadSnapshotPackage({
         projectId,
         file: fileBuffer,
-      });
+        fileName: basename(filePath),
+      } as Parameters<typeof client.uploadSnapshotPackage>[0]);
 
       const taskId = taskResponse._id;
       const startTime = Date.now();

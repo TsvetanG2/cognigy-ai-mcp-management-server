@@ -84,7 +84,7 @@ export function registerMergePackage(
 ): void {
   server.tool(
     "merge_package",
-    "Merges a package into a Cognigy.AI project, importing selected resources. Use localeMapping to map package locales to project locales. MUTATING: Set dryRun=false to merge. Async operation.",
+    "Merges a package into a Cognigy.AI project, importing selected resources. Use localeMapping to map package locales to project locales. KNOWN LIMITATION: in live testing (Cognigy 2026.20) every merge failed with 'Resource with id ... is not in the source', and the public API offers no way to list a package's resources; if this happens, import the package in the Cognigy.AI UI instead. MUTATING: Set dryRun=false to merge. Async operation.",
     inputSchema.shape,
     { readOnlyHint: false, destructiveHint: false, idempotentHint: false, openWorldHint: true },
     async (args) => {
@@ -218,6 +218,11 @@ export function registerMergePackage(
                   taskId,
                   failReason: task?.failReason ?? "Unknown error",
                   elapsedMs,
+                  ...(task?.failReason?.includes("is not in the source")
+                    ? {
+                        hint: "Known limitation: Cognigy did not find the given resource IDs in the package, and the public API cannot list a package's resources. Import the package in the Cognigy.AI UI (Packages > Import) instead.",
+                      }
+                    : {}),
                 },
                 null,
                 2
