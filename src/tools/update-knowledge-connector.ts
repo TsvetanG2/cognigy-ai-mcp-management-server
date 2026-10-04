@@ -68,11 +68,12 @@ export function registerUpdateKnowledgeConnector(
         };
       }
 
-      const result = await client.updateKnowledgeConnector({
+      // The update endpoint returns no body
+      await client.updateKnowledgeConnector({
         connectorId,
         knowledgeStoreId,
         name,
-      } as any) as unknown as Record<string, unknown>;
+      } as any);
 
       return {
         content: [
@@ -81,11 +82,8 @@ export function registerUpdateKnowledgeConnector(
             text: JSON.stringify(
               {
                 updated: true,
-                connector: {
-                  _id: result._id,
-                  name: result.name,
-                  type: result.type,
-                },
+                connectorId,
+                name,
               },
               null,
               2

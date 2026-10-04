@@ -27,7 +27,7 @@ export function registerGetHandoverProvider(
     async (args) => {
       const { providerId } = inputSchema.parse(args);
 
-      const provider = await client.readHandoverProvider({ providerId } as any) as unknown as Record<string, unknown>;
+      const provider = await client.readHandoverProvider({ handoverProviderId: providerId }) as unknown as Record<string, unknown>;
 
       return {
         content: [
@@ -38,14 +38,15 @@ export function registerGetHandoverProvider(
                 _id: provider._id,
                 referenceId: provider.referenceId,
                 name: provider.name,
-                type: provider.type,
-                enabled: provider.enabled,
-                settings: provider.settings,
+                serviceId: provider.serviceId,
+                properties: provider.properties,
+                provisioning: (provider.provisioning as { status?: string } | undefined)?.status,
+                // Handover provider timestamps are in milliseconds, unlike most Cognigy resources
                 createdAt: typeof provider.createdAt === "number"
-                  ? new Date(provider.createdAt * 1000).toISOString()
+                  ? new Date(provider.createdAt).toISOString()
                   : undefined,
-                lastChanged: typeof provider.lastChanged === "number"
-                  ? new Date(provider.lastChanged * 1000).toISOString()
+                lastChangedAt: typeof provider.lastChangedAt === "number"
+                  ? new Date(provider.lastChangedAt).toISOString()
                   : undefined,
               },
               null,

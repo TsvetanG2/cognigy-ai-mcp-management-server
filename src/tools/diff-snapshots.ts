@@ -145,14 +145,14 @@ export function registerDiffSnapshots(
                     _id: snapshotIdA,
                     name: snapshotA.name,
                     createdAt: snapshotA.createdAt
-                      ? new Date(snapshotA.createdAt).toISOString()
+                      ? new Date(snapshotA.createdAt * 1000).toISOString()
                       : undefined,
                   },
                   snapshotB: {
                     _id: snapshotIdB,
                     name: snapshotB.name,
                     createdAt: snapshotB.createdAt
-                      ? new Date(snapshotB.createdAt).toISOString()
+                      ? new Date(snapshotB.createdAt * 1000).toISOString()
                       : undefined,
                   },
                 },

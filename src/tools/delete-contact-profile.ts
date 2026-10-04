@@ -45,7 +45,7 @@ export function registerDeleteContactProfile(
                   message: "Validation passed. Set dryRun=false to delete the contact profile.",
                   wouldDelete: {
                     _id: existing._id,
-                    contactId: existing.contactId,
+                    contactIds: existing.contactIds,
                   },
                   warning: "Deleting a contact profile permanently removes all stored user data.",
                 },

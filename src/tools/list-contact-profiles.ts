@@ -50,19 +50,24 @@ export function registerListContactProfiles(
         skip,
       } as any) as unknown as { items?: Record<string, unknown>[]; total?: number; nextCursor?: string; previousCursor?: string };
 
-      const profiles = (result.items || []).map((profile) => ({
+      const profiles = (result.items || []).map((profile) => {
+        const data = (profile.profile ?? {}) as Record<string, unknown>;
+        return {
         _id: profile._id,
-        referenceId: profile.referenceId,
-        contactId: profile.contactId,
-        acceptedGDPR: profile.acceptedGDPR,
-        goals: profile.goals,
+        contactIds: profile.contactIds,
+        active: profile.active,
+        firstname: data.firstname || undefined,
+        lastname: data.lastname || undefined,
+        email: data.email || undefined,
+        acceptedGDPR: data.accepted_gdpr,
         createdAt: typeof profile.createdAt === "number"
           ? new Date(profile.createdAt * 1000).toISOString()
           : undefined,
         lastChanged: typeof profile.lastChanged === "number"
           ? new Date(profile.lastChanged * 1000).toISOString()
           : undefined,
-      }));
+        };
+      });
 
       return {
         content: [

@@ -17,7 +17,10 @@ const inputSchema = z.object({
     .describe("Name for the connection"),
   type: z
     .string()
-    .describe("Connection type (from extension schema, e.g., 'http-basic-auth', 'api-key', etc.)"),
+    .describe("Connection type as defined by the extension's connection schema (e.g., 'http-basic-auth', 'api-key')"),
+  extension: z
+    .string()
+    .describe("Name of the extension that defines the connection type (see list_extensions / get_extension)"),
   fields: z
     .record(z.string(), z.string())
     .optional()
@@ -39,7 +42,7 @@ export function registerCreateConnection(
     inputSchema.shape,
     { readOnlyHint: false, destructiveHint: false, idempotentHint: false, openWorldHint: true },
     async (args) => {
-      const { projectId, name, type, fields, dryRun } = inputSchema.parse(args);
+      const { projectId, name, type, extension, fields, dryRun } = inputSchema.parse(args);
 
       if (dryRun) {
         return {
@@ -54,6 +57,7 @@ export function registerCreateConnection(
                     projectId,
                     name,
                     type,
+                    extension,
                     fieldCount: fields ? Object.keys(fields).length : 0,
                   },
                 },
@@ -70,7 +74,8 @@ export function registerCreateConnection(
         projectId,
         name,
         type,
-        ...fields,
+        extension,
+        fields: fields ?? {},
       });
 
       return {

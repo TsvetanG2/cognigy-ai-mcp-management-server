@@ -83,7 +83,7 @@ export function registerRestoreSnapshot(
                     snapshotId,
                     name: snapshotInfo.name ?? "(unknown)",
                     createdAt: snapshotInfo.createdAt
-                      ? new Date(snapshotInfo.createdAt).toISOString()
+                      ? new Date(snapshotInfo.createdAt * 1000).toISOString()
                       : "(unknown)",
                   },
                 },

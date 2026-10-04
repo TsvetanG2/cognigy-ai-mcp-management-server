@@ -1,6 +1,6 @@
 /**
  * get_call_metrics tool
- * Gets call counter metrics for a project or organization.
+ * Gets call counter metrics (Voice Gateway) for a project or organization.
  */
 
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
@@ -13,18 +13,18 @@ const inputSchema = z.object({
     .string()
     .optional()
     .describe("Project ID for project-level metrics. Omit for organization-wide metrics."),
-  startDate: z
-    .string()
+  year: z
+    .number()
+    .int()
     .optional()
-    .describe("Start date for metrics (ISO 8601 format)"),
-  endDate: z
-    .string()
+    .describe("Year to report on (e.g., 2026). Defaults to the current year."),
+  month: z
+    .number()
+    .int()
+    .min(1)
+    .max(12)
     .optional()
-    .describe("End date for metrics (ISO 8601 format)"),
-  timezone: z
-    .string()
-    .optional()
-    .describe("Timezone for aggregation (e.g., 'UTC', 'America/New_York')"),
+    .describe("Month to report on (1-12). Defaults to the current month."),
 });
 
 export function registerGetCallMetrics(
@@ -34,30 +34,16 @@ export function registerGetCallMetrics(
 ): void {
   server.tool(
     "get_call_metrics",
-    "Gets Cognigy.AI call counter metrics (Voice Gateway). Returns aggregated call counts for a project or entire organization over a time period.",
+    "Gets Cognigy.AI call counter metrics (Voice Gateway) for one month. Returns aggregated call counts for a project or the entire organization.",
     inputSchema.shape,
     { readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: true },
     async (args) => {
-      const { projectId, startDate, endDate, timezone } = inputSchema.parse(args);
+      const now = new Date();
+      const { projectId, year = now.getUTCFullYear(), month = now.getUTCMonth() + 1 } = inputSchema.parse(args);
 
-      let result: Record<string, unknown>;
-
-      if (projectId) {
-        // Project-level metrics
-        result = await (client as any).getCallCounter({
-          projectId,
-          startDate,
-          endDate,
-          timezone,
-        }) as Record<string, unknown>;
-      } else {
-        // Organization-wide metrics
-        result = await (client as any).getCallCounterOrganisation({
-          startDate,
-          endDate,
-          timezone,
-        }) as Record<string, unknown>;
-      }
+      const result = projectId
+        ? await client.getPreAggregatedCallCounter({ projectId, year, month })
+        : await client.getPreAggregatedCallCounterOrganisation({ year, month });
 
       return {
         content: [
@@ -67,7 +53,9 @@ export function registerGetCallMetrics(
               {
                 scope: projectId ? "project" : "organization",
                 projectId: projectId || undefined,
-                metrics: result,
+                year,
+                month,
+                metrics: result.items,
               },
               null,
               2

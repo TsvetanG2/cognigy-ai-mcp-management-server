@@ -22,7 +22,11 @@ const inputSchema = z.object({
   exampleSentences: z
     .array(z.string())
     .optional()
-    .describe("Initial training sentences for the intent"),
+    .describe("Initial training sentences for the intent (created as example sentences, same as create_sentence)"),
+  localeId: z
+    .string()
+    .optional()
+    .describe("Locale ID for the example sentences. Defaults to the locale the intent is created in."),
   condition: z
     .string()
     .optional()
@@ -65,6 +69,7 @@ export function registerCreateIntent(
         name,
         description,
         exampleSentences,
+        localeId,
         condition,
         isDisabled,
         tags,
@@ -114,16 +119,23 @@ export function registerCreateIntent(
       if (confirmationSentences !== undefined) createParams.confirmationSentences = confirmationSentences;
       if (rules !== undefined) createParams.rules = rules;
 
-      // Note: exampleSentences may need to be added via a separate API call
-      // depending on the Cognigy API version. The create endpoint may accept
-      // them directly or they may need to be added via createExampleSentence.
-      if (exampleSentences !== undefined) {
-        createParams.data = { exampleSentences };
-      }
-
       const result = await client.createIntent(
         createParams as unknown as Parameters<typeof client.createIntent>[0]
       );
+
+      // The create endpoint does not turn example sentences into training data,
+      // so create each one as a sentence resource
+      const sentenceLocaleId = localeId ?? (result as unknown as { localeReference?: string }).localeReference;
+      const sentencesCreated: string[] = [];
+      const sentencesFailed: { text: string; error: string }[] = [];
+      for (const text of exampleSentences ?? []) {
+        try {
+          await client.createSentence({ flowId, intentId: result._id, localeId: sentenceLocaleId as string, text });
+          sentencesCreated.push(text);
+        } catch (err) {
+          sentencesFailed.push({ text, error: err instanceof Error ? err.message : String(err) });
+        }
+      }
 
       return {
         content: [
@@ -139,6 +151,8 @@ export function registerCreateIntent(
                   description: result.description,
                   isDisabled: result.isDisabled,
                 },
+                exampleSentencesCreated: sentencesCreated.length,
+                ...(sentencesFailed.length > 0 ? { exampleSentencesFailed: sentencesFailed } : {}),
                 nextStep: "Call train_intents to train the NLU model with the new intent.",
               },
               null,

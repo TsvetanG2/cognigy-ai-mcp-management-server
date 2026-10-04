@@ -15,21 +15,28 @@ const inputSchema = z.object({
   name: z
     .string()
     .describe("Name for the connector"),
+  extension: z
+    .string()
+    .describe("Name of the extension that provides the knowledge connector (see list_extensions)"),
   type: z
     .string()
-    .describe("Connector type (e.g., 'sharepoint', 'confluence', 'custom')"),
-  connectionId: z
+    .describe("Connector type as defined by the extension"),
+  version: z
     .string()
-    .optional()
-    .describe("Connection ID for authentication"),
-  settings: z
+    .describe("Version of the extension's connector to use"),
+  config: z
     .record(z.string(), z.unknown())
-    .optional()
-    .describe("Type-specific connector settings"),
+    .default({})
+    .describe("Connector-specific configuration, including any connection reference the connector requires"),
   schedule: z
-    .string()
-    .optional()
-    .describe("Cron expression for scheduled runs"),
+    .object({
+      enabled: z.boolean().describe("Whether scheduled runs are enabled"),
+      weekDays: z.array(z.number().int().min(0).max(6)).describe("Days to run on (0 = Sunday ... 6 = Saturday)"),
+      hour: z.number().int().min(0).max(23),
+      minute: z.number().int().min(0).max(59),
+    })
+    .default({ enabled: false, weekDays: [], hour: 0, minute: 0 })
+    .describe("Run schedule. Defaults to disabled (run manually with run_knowledge_connector)."),
   dryRun: z
     .boolean()
     .default(true)
@@ -47,7 +54,7 @@ export function registerCreateKnowledgeConnector(
     inputSchema.shape,
     { readOnlyHint: false, destructiveHint: false, idempotentHint: false, openWorldHint: true },
     async (args) => {
-      const { knowledgeStoreId, name, type, connectionId, settings, schedule, dryRun } = inputSchema.parse(args);
+      const { knowledgeStoreId, name, extension, type, version, config, schedule, dryRun } = inputSchema.parse(args);
 
       if (dryRun) {
         return {
@@ -61,9 +68,11 @@ export function registerCreateKnowledgeConnector(
                   wouldCreate: {
                     knowledgeStoreId,
                     name,
+                    extension,
                     type,
-                    hasConnection: !!connectionId,
-                    hasSchedule: !!schedule,
+                    version,
+                    configKeys: Object.keys(config),
+                    schedule,
                   },
                 },
                 null,
@@ -77,9 +86,11 @@ export function registerCreateKnowledgeConnector(
       const result = await client.createKnowledgeConnector({
         knowledgeStoreId,
         name,
+        extension,
         type,
-        connectionId,
-        ...settings,
+        version,
+        config,
+        schedule,
       } as any) as unknown as Record<string, unknown>;
 
       return {

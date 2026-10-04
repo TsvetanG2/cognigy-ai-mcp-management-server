@@ -66,12 +66,14 @@ export function registerCreateContactProfile(
         };
       }
 
+      const profileData: Record<string, unknown> = { ...profile };
+      if (acceptedGDPR !== undefined) profileData.accepted_gdpr = acceptedGDPR;
+
       const result = await client.createProfile({
         projectId,
-        contactId,
-        profile,
-        acceptedGDPR,
-      } as any) as unknown as Record<string, unknown>;
+        contactIds: [contactId],
+        profile: profileData,
+      } as Parameters<typeof client.createProfile>[0]);
 
       return {
         content: [
@@ -82,8 +84,7 @@ export function registerCreateContactProfile(
                 created: true,
                 profile: {
                   _id: result._id,
-                  referenceId: result.referenceId,
-                  contactId: result.contactId,
+                  contactIds: result.contactIds,
                 },
               },
               null,

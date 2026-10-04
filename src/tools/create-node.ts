@@ -136,8 +136,7 @@ export function registerCreateNode(
         createParams.comment = comment;
       }
       if (config) {
-        // Spread config into the params (node-specific settings)
-        Object.assign(createParams, config);
+        createParams.config = config;
       }
 
       const result = await client.createChartNode(createParams as unknown as Parameters<typeof client.createChartNode>[0]);

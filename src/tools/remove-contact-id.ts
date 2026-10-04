@@ -48,8 +48,7 @@ export function registerRemoveContactId(
                   message: "Validation passed. Set dryRun=false to remove the contact ID.",
                   existingProfile: {
                     _id: existing._id,
-                    contactId: existing.contactId,
-                    mergedContactIds: existing.mergedContactIds,
+                    contactIds: existing.contactIds,
                   },
                   wouldRemove: {
                     contactId,

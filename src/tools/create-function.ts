@@ -15,22 +15,10 @@ const inputSchema = z.object({
   name: z
     .string()
     .describe("Name for the function"),
-  description: z
-    .string()
-    .optional()
-    .describe("Description of the function's purpose"),
-  type: z
-    .string()
-    .optional()
-    .describe("Function type"),
   code: z
     .string()
     .optional()
-    .describe("The function code (JavaScript/TypeScript)"),
-  parameters: z
-    .record(z.string(), z.unknown())
-    .optional()
-    .describe("Function parameters schema"),
+    .describe("The function code (JavaScript/TypeScript). Runtime input arrives via trigger_function's parameters."),
   dryRun: z
     .boolean()
     .default(true)

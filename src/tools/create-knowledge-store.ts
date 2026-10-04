@@ -22,7 +22,7 @@ const inputSchema = z.object({
   language: z
     .string()
     .optional()
-    .describe("Primary language for the knowledge store (e.g., 'en', 'de')"),
+    .describe("Primary language as a full locale code (e.g., 'en-US', 'de-DE'). Note: the project needs a configured Generative AI provider (LLM) for knowledge stores."),
   embeddingModel: z
     .string()
     .optional()

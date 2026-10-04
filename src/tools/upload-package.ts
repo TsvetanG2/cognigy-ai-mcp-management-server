@@ -219,8 +219,9 @@ export function registerUploadPackage(
       }
 
       // Success
-      const taskData = task as { parameters?: { packageId?: string; resourceId?: string } } | null;
-      const packageId = taskData?.parameters?.packageId ?? taskData?.parameters?.resourceId ?? null;
+      // The finished task carries the new package's ID in its data
+      const finishedTask = (task ?? await client.readTask({ taskId })) as { data?: { packageId?: string } };
+      const packageId = finishedTask.data?.packageId ?? null;
 
       return {
         content: [

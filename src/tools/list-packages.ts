@@ -49,7 +49,7 @@ export function registerListPackages(
         name: pkg.name,
         description: pkg.description,
         createdAt: pkg.createdAt
-          ? new Date(pkg.createdAt).toISOString()
+          ? new Date(pkg.createdAt * 1000).toISOString()
           : undefined,
       }));
 

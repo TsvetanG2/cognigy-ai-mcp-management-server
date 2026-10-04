@@ -86,20 +86,19 @@ export function registerUpdateLlm(
       }
 
       // Build update params
-      const updateParams: Record<string, unknown> = {
-        largeLanguageModelId,
-        name,
-        description,
-        isDefault,
-        connectionId,
-      };
+      const updates: Record<string, unknown> = {};
+      if (name !== undefined) updates.name = name;
+      if (description !== undefined) updates.description = description;
+      if (isDefault !== undefined) updates.isDefault = isDefault;
+      if (connectionId !== undefined) updates.connectionId = connectionId;
 
       // Add provider-specific settings
       if (providerConfig && existing.provider) {
-        updateParams[existing.provider as string] = providerConfig;
+        updates[existing.provider as string] = providerConfig;
       }
 
-      const result = await client.updateLargeLanguageModel(updateParams as any) as unknown as Record<string, unknown>;
+      // The update endpoint returns no body, so report what was sent
+      await client.updateLargeLanguageModel({ largeLanguageModelId, ...updates } as any);
 
       return {
         content: [
@@ -108,12 +107,9 @@ export function registerUpdateLlm(
             text: JSON.stringify(
               {
                 updated: true,
-                llm: {
-                  _id: result._id,
-                  name: result.name,
-                  provider: result.provider,
-                  modelType: result.modelType,
-                },
+                largeLanguageModelId,
+                provider: existing.provider,
+                fieldsUpdated: Object.keys(updates),
               },
               null,
               2

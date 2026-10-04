@@ -14,11 +14,12 @@ const inputSchema = z.object({
     .describe("The project ID to set the profile schema for"),
   schema: z
     .array(z.object({
-      name: z.string().describe("Field name"),
-      type: z.enum(["string", "number", "boolean", "array", "object"]).describe("Field type"),
-      description: z.string().optional().describe("Field description"),
+      field: z.string().describe("Display name of the field"),
+      internal: z.string().describe("Reference name used in code, e.g. profile.<internal>"),
+      type: z.enum(["string", "number", "boolean", "object"]).describe("Field type"),
     }))
-    .describe("Array of schema field definitions"),
+    .min(1)
+    .describe("Custom fields to add or update. Existing custom fields with the same internal name are replaced; others are kept."),
   dryRun: z
     .boolean()
     .default(true)
@@ -32,11 +33,17 @@ export function registerSetContactProfileSchema(
 ): void {
   server.tool(
     "set_contact_profile_schema",
-    "Sets the contact profile schema for a Cognigy.AI project. Defines what custom fields can be stored in contact profiles. MUTATING: Set dryRun=false to update.",
+    "Adds or updates custom fields in the Cognigy.AI contact profile schema of a project. Built-in fields (firstname, email, ...) always exist; existing custom fields not listed are kept. MUTATING: Set dryRun=false to update.",
     inputSchema.shape,
     { readOnlyHint: false, destructiveHint: false, idempotentHint: true, openWorldHint: true },
     async (args) => {
       const { projectId, schema, dryRun } = inputSchema.parse(args);
+
+      // The API replaces the custom field list, so merge with the current one
+      const current = await client.getProfileSchema({ projectId });
+      const merged = new Map((current.details ?? []).map((d) => [d.internal, d]));
+      for (const entry of schema) merged.set(entry.internal, entry);
+      const details = [...merged.values()];
 
       if (dryRun) {
         return {
@@ -49,8 +56,8 @@ export function registerSetContactProfileSchema(
                   message: "Validation passed. Set dryRun=false to update the profile schema.",
                   wouldSet: {
                     projectId,
-                    fieldCount: schema.length,
-                    fields: schema.map((f) => f.name),
+                    fieldsToSet: schema.map((f) => f.internal),
+                    resultingCustomFields: details,
                   },
                 },
                 null,
@@ -61,10 +68,7 @@ export function registerSetContactProfileSchema(
         };
       }
 
-      const result = await client.setProfileSchema({
-        projectId,
-        schema,
-      } as any) as unknown as Record<string, unknown>;
+      await client.setProfileSchema({ projectId, details });
 
       return {
         content: [
@@ -74,7 +78,7 @@ export function registerSetContactProfileSchema(
               {
                 updated: true,
                 projectId,
-                schema: result.schema || schema,
+                customFields: details,
                 note: "Profile schema has been updated.",
               },
               null,

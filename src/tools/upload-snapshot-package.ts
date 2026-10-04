@@ -222,8 +222,12 @@ export function registerUploadSnapshotPackage(
       }
 
       // Success - the snapshot ID may be available in task parameters
-      const taskData = task as { parameters?: { snapshotId?: string; resourceId?: string } } | null;
-      const snapshotId = taskData?.parameters?.snapshotId ?? taskData?.parameters?.resourceId ?? null;
+      // The task does not report the new snapshot's ID, so take the newest snapshot created since it started
+      const snapshots = await client.indexSnapshots({ projectId, limit: 100 } as Parameters<typeof client.indexSnapshots>[0]);
+      const uploaded = (snapshots.items || [])
+        .filter((s) => s.createdAt >= taskResponse.createdAt)
+        .sort((a, b) => b.createdAt - a.createdAt)[0];
+      const snapshotId = uploaded?._id ?? null;
 
       return {
         content: [

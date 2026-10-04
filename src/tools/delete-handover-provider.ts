@@ -9,6 +9,9 @@ import type { CognigyClient } from "../cognigy-client.js";
 import type { Config } from "../config.js";
 
 const inputSchema = z.object({
+  projectId: z
+    .string()
+    .describe("The project ID the handover provider belongs to"),
   providerId: z
     .string()
     .describe("The handover provider ID to delete"),
@@ -29,10 +32,10 @@ export function registerDeleteHandoverProvider(
     inputSchema.shape,
     { readOnlyHint: false, destructiveHint: true, idempotentHint: true, openWorldHint: true },
     async (args) => {
-      const { providerId, dryRun } = inputSchema.parse(args);
+      const { projectId, providerId, dryRun } = inputSchema.parse(args);
 
       // Verify the provider exists
-      const existing = await client.readHandoverProvider({ providerId } as any) as unknown as Record<string, unknown>;
+      const existing = await client.readHandoverProvider({ handoverProviderId: providerId }) as unknown as Record<string, unknown>;
 
       if (dryRun) {
         return {
@@ -46,7 +49,7 @@ export function registerDeleteHandoverProvider(
                   wouldDelete: {
                     _id: existing._id,
                     name: existing.name,
-                    type: existing.type,
+                    serviceId: existing.serviceId,
                   },
                   warning: "Deleting this provider will break handover for any endpoints using it.",
                 },
@@ -58,7 +61,7 @@ export function registerDeleteHandoverProvider(
         };
       }
 
-      await client.deleteHandoverProvider({ providerId } as any);
+      await client.deleteHandoverProvider({ handoverProviderId: providerId, projectId });
 
       return {
         content: [

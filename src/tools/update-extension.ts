@@ -64,10 +64,11 @@ export function registerUpdateExtension(
         };
       }
 
-      const result = await client.updateExtension({
+      // The update endpoint returns no body, so report what was sent
+      await client.updateExtension({
         extensionId,
         trustedCode: trustedCode ?? false,
-      } as any) as unknown as Record<string, unknown>;
+      } as any);
 
       return {
         content: [
@@ -76,11 +77,8 @@ export function registerUpdateExtension(
             text: JSON.stringify(
               {
                 updated: true,
-                extension: {
-                  _id: result._id,
-                  name: result.name,
-                  trustedCode: result.trustedCode,
-                },
+                extensionId,
+                trustedCode: trustedCode ?? false,
               },
               null,
               2

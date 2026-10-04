@@ -69,8 +69,8 @@ export function registerCreateNluConnector(
         projectId,
         name,
         type,
-        ...settings,
-      });
+        ...(settings ? { settings } : {}),
+      } as Parameters<typeof client.createNLUConnector>[0]);
 
       return {
         content: [

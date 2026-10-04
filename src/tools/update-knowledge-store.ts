@@ -69,11 +69,15 @@ export function registerUpdateKnowledgeStore(
         };
       }
 
-      const result = await client.updateKnowledgeStore({
+      const updates: Record<string, unknown> = {};
+      if (name !== undefined) updates.name = name;
+      if (description !== undefined) updates.description = description;
+
+      // The update endpoint returns no body, so report what was sent
+      await client.updateKnowledgeStore({
         knowledgeStoreId,
-        name,
-        description,
-      } as any) as unknown as Record<string, unknown>;
+        ...updates,
+      } as any);
 
       return {
         content: [
@@ -82,10 +86,8 @@ export function registerUpdateKnowledgeStore(
             text: JSON.stringify(
               {
                 updated: true,
-                store: {
-                  _id: result._id,
-                  name: result.name,
-                },
+                knowledgeStoreId,
+                fieldsUpdated: Object.keys(updates),
               },
               null,
               2

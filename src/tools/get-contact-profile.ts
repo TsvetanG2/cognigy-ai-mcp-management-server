@@ -36,12 +36,10 @@ export function registerGetContactProfile(
             text: JSON.stringify(
               {
                 _id: profile._id,
-                referenceId: profile.referenceId,
-                contactId: profile.contactId,
-                acceptedGDPR: profile.acceptedGDPR,
-                goals: profile.goals,
+                contactIds: profile.contactIds,
+                active: profile.active,
+                acceptedGDPR: (profile.profile as Record<string, unknown> | undefined)?.accepted_gdpr,
                 profile: profile.profile,
-                mergedContactIds: profile.mergedContactIds,
                 createdAt: typeof profile.createdAt === "number"
                   ? new Date(profile.createdAt * 1000).toISOString()
                   : undefined,

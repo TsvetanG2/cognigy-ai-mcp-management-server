@@ -49,10 +49,10 @@ export function registerListHandoverProviders(
         _id: provider._id,
         referenceId: provider.referenceId,
         name: provider.name,
-        type: provider.type,
-        enabled: provider.enabled,
+        serviceId: provider.serviceId,
+        // Handover provider timestamps are in milliseconds, unlike most Cognigy resources
         createdAt: typeof provider.createdAt === "number"
-          ? new Date(provider.createdAt * 1000).toISOString()
+          ? new Date(provider.createdAt).toISOString()
           : undefined,
       }));
 

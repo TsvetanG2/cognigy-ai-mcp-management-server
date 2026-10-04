@@ -13,26 +13,14 @@ const inputSchema = z.object({
     .string()
     .optional()
     .describe("Filter audit events by project ID"),
-  userId: z
+  user: z
     .string()
     .optional()
-    .describe("Filter audit events by user ID"),
+    .describe("Filter by the user who performed the action (as shown in the event's 'user' field)"),
   eventType: z
     .string()
     .optional()
     .describe("Filter by event type (e.g., 'create', 'update', 'delete')"),
-  resourceType: z
-    .string()
-    .optional()
-    .describe("Filter by resource type (e.g., 'flow', 'intent', 'endpoint')"),
-  startDate: z
-    .string()
-    .optional()
-    .describe("Start date for audit events (ISO 8601 format)"),
-  endDate: z
-    .string()
-    .optional()
-    .describe("End date for audit events (ISO 8601 format)"),
   limit: z
     .number()
     .min(1)
@@ -57,29 +45,23 @@ export function registerListAuditEvents(
     inputSchema.shape,
     { readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: true },
     async (args) => {
-      const { projectId, userId, eventType, resourceType, startDate, endDate, limit, skip } = inputSchema.parse(args);
+      const { projectId, user, eventType, limit, skip } = inputSchema.parse(args);
 
       const result = await client.indexAuditEvents({
         projectId,
-        userId,
-        eventType,
-        resourceType,
-        startDate,
-        endDate,
+        ...(user ? { actor: [user] } : {}),
+        ...(eventType ? { type: [eventType] } : {}),
         limit,
         skip,
       } as any) as unknown as { items?: Record<string, unknown>[]; total?: number };
 
       const events = (result.items || []).map((event) => ({
         _id: event._id,
-        eventType: event.eventType,
-        resourceType: event.resourceType,
-        resourceId: event.resourceId,
-        userId: event.userId,
-        userName: event.userName,
-        projectId: event.projectId,
         timestamp: event.timestamp,
-        changes: event.changes,
+        type: event.type,
+        user: event.user,
+        projectId: event.projectReference,
+        resources: event.chain,
       }));
 
       return {

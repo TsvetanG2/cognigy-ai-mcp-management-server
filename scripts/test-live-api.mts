@@ -123,7 +123,7 @@ async function testCoreReads(): Promise<void> {
 
   await test("get_flow_settings", async () => {
     if (!flowId) throw new Error("No flow available");
-    const result = await client.readFlowSettings({ flowId } as any) as any;
+    await client.readFlowSettings({ flowId } as any);
     return `Got settings for flow`;
   });
 

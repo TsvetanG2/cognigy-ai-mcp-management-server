@@ -83,7 +83,7 @@ export function registerPromoteSnapshot(
                     snapshotId,
                     name: snapshotInfo.name ?? "(unknown)",
                     createdAt: snapshotInfo.createdAt
-                      ? new Date(snapshotInfo.createdAt).toISOString()
+                      ? new Date(snapshotInfo.createdAt * 1000).toISOString()
                       : "(unknown)",
                   },
                   steps: [
@@ -205,7 +205,7 @@ export function registerPromoteSnapshot(
                 taskId,
                 elapsedMs: totalElapsedMs,
                 nextSteps: [
-                  "1. Download the package file from the downloadLink",
+                  "1. Download the package file from the downloadLink (send the Cognigy API key in the X-API-Key header)",
                   "2. In the target environment, use upload_snapshot_package with the downloaded file",
                   "3. Use restore_snapshot to apply the uploaded snapshot",
                 ],

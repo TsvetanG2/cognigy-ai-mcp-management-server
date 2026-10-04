@@ -70,12 +70,13 @@ export function registerUpdateKnowledgeChunk(
         };
       }
 
-      const result = await client.updateKnowledgeChunk({
+      // The update endpoint returns no body
+      await client.updateKnowledgeChunk({
         chunkId,
         sourceId,
         knowledgeStoreId,
         text,
-      } as any) as unknown as Record<string, unknown>;
+      } as any);
 
       return {
         content: [
@@ -84,9 +85,7 @@ export function registerUpdateKnowledgeChunk(
             text: JSON.stringify(
               {
                 updated: true,
-                chunk: {
-                  _id: result._id,
-                },
+                chunkId,
                 note: text ? "Text updated - chunk will be re-embedded." : "Chunk updated.",
               },
               null,

@@ -69,11 +69,15 @@ export function registerUpdateConnection(
         };
       }
 
-      // Update the connection
-      const result = await client.updateConnection({
+      const updates: Record<string, unknown> = {};
+      if (name !== undefined) updates.name = name;
+      if (fields !== undefined) updates.fields = fields;
+
+      // The update endpoint returns no body, so report what was sent (field names only, never values)
+      await client.updateConnection({
         connectionId,
-        name,
-      } as any) as unknown as Record<string, unknown>;
+        ...updates,
+      } as any);
 
       return {
         content: [
@@ -82,10 +86,9 @@ export function registerUpdateConnection(
             text: JSON.stringify(
               {
                 updated: true,
-                connection: {
-                  _id: result._id,
-                  name: result.name,
-                },
+                connectionId,
+                fieldsUpdated: Object.keys(updates),
+                ...(fields ? { connectionFieldsUpdated: Object.keys(fields) } : {}),
                 note: "Connection updated. Secret values are stored securely and not returned.",
               },
               null,

@@ -48,8 +48,7 @@ export function registerUnmergeContactProfiles(
                   message: "Validation passed. Set dryRun=false to unmerge the profile.",
                   existingProfile: {
                     _id: existing._id,
-                    contactId: existing.contactId,
-                    mergedContactIds: existing.mergedContactIds,
+                    contactIds: existing.contactIds,
                   },
                   wouldExtract: {
                     contactId,

@@ -49,7 +49,7 @@ export function registerCreateSnapshotDownloadLink(
                 snapshotId,
                 name: snapshotInfo.name ?? "(unknown)",
                 downloadLink: result.downloadLink,
-                note: "This link is temporary and will expire. Download promptly.",
+                note: "This link is temporary and will expire. Download promptly. The request must send the Cognigy API key in the X-API-Key header.",
               },
               null,
               2

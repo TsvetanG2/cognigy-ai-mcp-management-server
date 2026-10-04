@@ -61,9 +61,11 @@ export function registerTriggerFunction(
         };
       }
 
+      // The client sends the `parameters` value as the raw request body, but the API
+      // expects the body to be { parameters: {...} }, so wrap it once more.
       const result = await client.triggerFunction({
         functionId,
-        parameters: input || {},
+        parameters: { parameters: input || {} },
       }) as unknown as Record<string, unknown>;
 
       return {
@@ -77,10 +79,7 @@ export function registerTriggerFunction(
                   _id: fn._id,
                   name: fn.name,
                 },
-                instance: {
-                  _id: result._id,
-                  status: result.status,
-                },
+                functionInstanceId: result.functionInstanceId,
                 note: "Function triggered. Use get_function_instance to check status.",
               },
               null,

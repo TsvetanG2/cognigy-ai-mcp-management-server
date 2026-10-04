@@ -69,10 +69,15 @@ export function registerUpdateNluConnector(
         };
       }
 
-      const result = await client.updateNLUConnector({
+      const updates: Record<string, unknown> = {};
+      if (name !== undefined) updates.name = name;
+      if (settings !== undefined) updates.settings = settings;
+
+      // The update endpoint returns no body, so report what was sent
+      await client.updateNLUConnector({
         nluConnectorId,
-        name,
-      } as any) as unknown as Record<string, unknown>;
+        ...updates,
+      } as any);
 
       return {
         content: [
@@ -81,11 +86,8 @@ export function registerUpdateNluConnector(
             text: JSON.stringify(
               {
                 updated: true,
-                connector: {
-                  _id: result._id,
-                  name: result.name,
-                  type: result.type,
-                },
+                nluConnectorId,
+                fieldsUpdated: Object.keys(updates),
               },
               null,
               2

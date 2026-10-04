@@ -53,8 +53,8 @@ export function registerUpdateContactProfile(
                   message: "Validation passed. Set dryRun=false to update the contact profile.",
                   existingProfile: {
                     _id: existing._id,
-                    contactId: existing.contactId,
-                    acceptedGDPR: existing.acceptedGDPR,
+                    contactIds: existing.contactIds,
+                    acceptedGDPR: (existing.profile as Record<string, unknown> | undefined)?.accepted_gdpr,
                   },
                   wouldUpdate: {
                     hasProfileChanges: !!profile,
@@ -69,11 +69,14 @@ export function registerUpdateContactProfile(
         };
       }
 
-      const result = await client.updateProfile({
+      const profileData: Record<string, unknown> = { ...profile };
+      if (acceptedGDPR !== undefined) profileData.accepted_gdpr = acceptedGDPR;
+
+      // The update endpoint returns no body, so report what was sent
+      await client.updateProfile({
         profileId,
-        profile,
-        acceptedGDPR,
-      } as any) as unknown as Record<string, unknown>;
+        profile: profileData,
+      } as Parameters<typeof client.updateProfile>[0]);
 
       return {
         content: [
@@ -82,10 +85,8 @@ export function registerUpdateContactProfile(
             text: JSON.stringify(
               {
                 updated: true,
-                profile: {
-                  _id: result._id,
-                  contactId: result.contactId,
-                },
+                profileId,
+                fieldsUpdated: Object.keys(profileData),
               },
               null,
               2

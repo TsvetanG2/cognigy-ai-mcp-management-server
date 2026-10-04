@@ -39,6 +39,7 @@ export function registerGetContactProfileSchema(
               {
                 projectId,
                 schema: result.schema || result,
+                customFields: result.details ?? [],
               },
               null,
               2

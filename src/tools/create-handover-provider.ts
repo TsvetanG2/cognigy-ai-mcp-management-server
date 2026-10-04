@@ -17,15 +17,7 @@ const inputSchema = z.object({
     .describe("Name for the handover provider"),
   type: z
     .string()
-    .describe("Provider type (e.g., 'salesforce', 'genesys', 'ringcentral', 'custom')"),
-  settings: z
-    .record(z.string(), z.unknown())
-    .optional()
-    .describe("Provider-specific configuration settings"),
-  enabled: z
-    .boolean()
-    .default(true)
-    .describe("Whether the provider is enabled"),
+    .describe("Handover service name as returned by list_handover_services (e.g., 'liveAgent', 'salesforce', 'genesysCloud', 'chatwoot')"),
   dryRun: z
     .boolean()
     .default(true)
@@ -39,11 +31,29 @@ export function registerCreateHandoverProvider(
 ): void {
   server.tool(
     "create_handover_provider",
-    "Creates a new Cognigy.AI handover provider for live agent escalation. Configure providers like Salesforce, Genesys, or RingCentral. MUTATING: Set dryRun=false to create.",
+    "Creates a new Cognigy.AI handover provider for live agent escalation, based on one of the services from list_handover_services. The provider starts with the service's default properties; change them with update_handover_provider. MUTATING: Set dryRun=false to create.",
     inputSchema.shape,
     { readOnlyHint: false, destructiveHint: false, idempotentHint: false, openWorldHint: true },
     async (args) => {
-      const { projectId, name, type, settings, enabled, dryRun } = inputSchema.parse(args);
+      const { projectId, name, type, dryRun } = inputSchema.parse(args);
+
+      // The API needs the service's ID, so resolve it from the service name
+      const services = await client.indexHandoverServices({ projectId, limit: 100 } as Parameters<typeof client.indexHandoverServices>[0]);
+      const service = (services.items || []).find((s) => s.name === type);
+      if (!service) {
+        return {
+          content: [
+            {
+              type: "text" as const,
+              text: JSON.stringify({
+                error: `Unknown handover service '${type}'.`,
+                availableServices: (services.items || []).map((s) => s.name),
+              }),
+            },
+          ],
+          isError: true,
+        };
+      }
 
       if (dryRun) {
         return {
@@ -57,9 +67,8 @@ export function registerCreateHandoverProvider(
                   wouldCreate: {
                     projectId,
                     name,
-                    type,
-                    enabled,
-                    hasSettings: !!settings,
+                    service: service.name,
+                    serviceId: service._id,
                   },
                 },
                 null,
@@ -73,10 +82,8 @@ export function registerCreateHandoverProvider(
       const result = await client.createHandoverProvider({
         projectId,
         name,
-        type,
-        settings,
-        enabled,
-      } as any) as unknown as Record<string, unknown>;
+        serviceId: service._id,
+      } as Parameters<typeof client.createHandoverProvider>[0]) as unknown as Record<string, unknown>;
 
       return {
         content: [
@@ -89,7 +96,8 @@ export function registerCreateHandoverProvider(
                   _id: result._id,
                   referenceId: result.referenceId,
                   name: result.name,
-                  type: result.type,
+                  service: service.name,
+                  properties: result.properties,
                 },
               },
               null,

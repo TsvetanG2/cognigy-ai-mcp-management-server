@@ -14,6 +14,16 @@ const inputSchema = z.object({
     .describe("The audit event ID to retrieve"),
 });
 
+// The payload arrives as a JSON string; return it as an object when possible
+function parsePayload(payload: unknown): unknown {
+  if (typeof payload !== "string") return payload;
+  try {
+    return JSON.parse(payload);
+  } catch {
+    return payload;
+  }
+}
+
 export function registerGetAuditEvent(
   server: McpServer,
   client: CognigyClient,
@@ -36,16 +46,14 @@ export function registerGetAuditEvent(
             text: JSON.stringify(
               {
                 _id: event._id,
-                eventType: event.eventType,
-                resourceType: event.resourceType,
-                resourceId: event.resourceId,
-                resourceName: event.resourceName,
-                userId: event.userId,
-                userName: event.userName,
-                projectId: event.projectId,
                 timestamp: event.timestamp,
-                changes: event.changes,
-                metadata: event.metadata,
+                type: event.type,
+                user: event.user,
+                userId: event.userReference,
+                projectId: event.projectReference,
+                resources: event.chain,
+                performedBy: event.performedBy,
+                payload: parsePayload(event.payload),
               },
               null,
               2

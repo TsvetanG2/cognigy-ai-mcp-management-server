@@ -45,6 +45,21 @@ const inputSchema = z.object({
     .describe("If true (default), validates the operation without updating. Set to false to actually update."),
 });
 
+function isPlainObject(value: unknown): value is Record<string, unknown> {
+  return typeof value === "object" && value !== null && !Array.isArray(value);
+}
+
+// Merge nested objects key by key; arrays and primitives in `patch` replace the base value
+function deepMerge(base: Record<string, unknown> | undefined, patch: Record<string, unknown>): Record<string, unknown> {
+  const merged: Record<string, unknown> = { ...base };
+  for (const [key, value] of Object.entries(patch)) {
+    merged[key] = isPlainObject(value) && isPlainObject(merged[key])
+      ? deepMerge(merged[key] as Record<string, unknown>, value)
+      : value;
+  }
+  return merged;
+}
+
 export function registerUpdateNode(
   server: McpServer,
   client: CognigyClient,
@@ -75,9 +90,7 @@ export function registerUpdateNode(
       if (analyticsLabel !== undefined) updates.analyticsLabel = analyticsLabel;
       if (isDisabled !== undefined) updates.isDisabled = isDisabled;
       if (localeId !== undefined) updates.localeId = localeId;
-      if (config) {
-        Object.assign(updates, config);
-      }
+      if (config) updates.config = config;
 
       const updateCount = Object.keys(updates).length;
       if (updateCount === 0) {
@@ -117,6 +130,17 @@ export function registerUpdateNode(
             },
           ],
         };
+      }
+
+      // The API replaces config wholesale, so merge the provided keys over the current config
+      if (config) {
+        const current = await client.readChartNode({
+          resourceId: flowId,
+          resourceType: "flow",
+          nodeId,
+          preferredLocaleId: localeId,
+        });
+        updates.config = deepMerge(current.config as Record<string, unknown>, config);
       }
 
       // Actually update the node

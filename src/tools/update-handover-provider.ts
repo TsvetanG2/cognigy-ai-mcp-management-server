@@ -8,7 +8,12 @@ import { z } from "zod";
 import type { CognigyClient } from "../cognigy-client.js";
 import type { Config } from "../config.js";
 
+type ProviderProperty = { key: string; value: unknown };
+
 const inputSchema = z.object({
+  projectId: z
+    .string()
+    .describe("The project ID the handover provider belongs to"),
   providerId: z
     .string()
     .describe("The handover provider ID to update"),
@@ -16,14 +21,10 @@ const inputSchema = z.object({
     .string()
     .optional()
     .describe("New name for the provider"),
-  settings: z
+  properties: z
     .record(z.string(), z.unknown())
     .optional()
-    .describe("Updated provider settings"),
-  enabled: z
-    .boolean()
-    .optional()
-    .describe("Enable or disable the provider"),
+    .describe("Provider properties to set, as key/value pairs (see get_handover_provider for the current keys). Keys not listed are kept."),
   dryRun: z
     .boolean()
     .default(true)
@@ -37,14 +38,37 @@ export function registerUpdateHandoverProvider(
 ): void {
   server.tool(
     "update_handover_provider",
-    "Updates an existing Cognigy.AI handover provider. Use this to change settings or enable/disable the provider. MUTATING: Set dryRun=false to update.",
+    "Updates an existing Cognigy.AI handover provider. Use this to rename it or change its properties. MUTATING: Set dryRun=false to update.",
     inputSchema.shape,
     { readOnlyHint: false, destructiveHint: false, idempotentHint: true, openWorldHint: true },
     async (args) => {
-      const { providerId, name, settings, enabled, dryRun } = inputSchema.parse(args);
+      const { projectId, providerId, name, properties, dryRun } = inputSchema.parse(args);
 
       // Verify the provider exists
-      const existing = await client.readHandoverProvider({ providerId } as any) as unknown as Record<string, unknown>;
+      const existing = await client.readHandoverProvider({ handoverProviderId: providerId }) as unknown as Record<string, unknown>;
+
+      const updates: Record<string, unknown> = {};
+      if (name !== undefined) updates.name = name;
+      if (properties !== undefined) {
+        // The API replaces the whole list, so merge the given keys into the current properties
+        const merged = new Map(((existing.properties as ProviderProperty[] | undefined) ?? []).map((p) => [p.key, p.value]));
+        for (const [key, value] of Object.entries(properties)) merged.set(key, value);
+        updates.properties = [...merged].map(([key, value]) => ({ key, value }));
+      }
+
+      if (Object.keys(updates).length === 0) {
+        return {
+          content: [
+            {
+              type: "text" as const,
+              text: JSON.stringify({
+                error: "No updates specified. Provide name or properties.",
+              }),
+            },
+          ],
+          isError: true,
+        };
+      }
 
       if (dryRun) {
         return {
@@ -58,14 +82,9 @@ export function registerUpdateHandoverProvider(
                   existingProvider: {
                     _id: existing._id,
                     name: existing.name,
-                    type: existing.type,
-                    enabled: existing.enabled,
+                    serviceId: existing.serviceId,
                   },
-                  wouldUpdate: {
-                    name: name || "(unchanged)",
-                    enabled: enabled !== undefined ? enabled : "(unchanged)",
-                    hasSettings: !!settings,
-                  },
+                  wouldUpdate: updates,
                 },
                 null,
                 2
@@ -76,11 +95,10 @@ export function registerUpdateHandoverProvider(
       }
 
       const result = await client.updateHandoverProvider({
-        providerId,
-        name,
-        settings,
-        enabled,
-      } as any) as unknown as Record<string, unknown>;
+        handoverProviderId: providerId,
+        projectId,
+        ...updates,
+      } as Parameters<typeof client.updateHandoverProvider>[0]) as unknown as Record<string, unknown>;
 
       return {
         content: [
@@ -90,9 +108,9 @@ export function registerUpdateHandoverProvider(
               {
                 updated: true,
                 provider: {
-                  _id: result._id,
+                  _id: providerId,
                   name: result.name,
-                  enabled: result.enabled,
+                  properties: result.properties,
                 },
               },
               null,

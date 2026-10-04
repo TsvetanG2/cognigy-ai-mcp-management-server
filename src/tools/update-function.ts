@@ -16,18 +16,14 @@ const inputSchema = z.object({
     .string()
     .optional()
     .describe("New name for the function"),
-  description: z
-    .string()
-    .optional()
-    .describe("New description"),
   code: z
     .string()
     .optional()
     .describe("Updated function code"),
-  parameters: z
-    .record(z.string(), z.unknown())
+  isDisabled: z
+    .boolean()
     .optional()
-    .describe("Updated parameters schema"),
+    .describe("Disable (true) or enable (false) the function"),
   dryRun: z
     .boolean()
     .default(true)
@@ -41,11 +37,30 @@ export function registerUpdateFunction(
 ): void {
   server.tool(
     "update_function",
-    "Updates an existing Cognigy.AI Function. Use this to change code, name, or parameters. MUTATING: Set dryRun=false to update.",
+    "Updates an existing Cognigy.AI Function. Use this to change its name or code, or to enable/disable it. MUTATING: Set dryRun=false to update.",
     inputSchema.shape,
     { readOnlyHint: false, destructiveHint: false, idempotentHint: true, openWorldHint: true },
     async (args) => {
-      const { functionId, name, code, parameters, dryRun } = inputSchema.parse(args);
+      const { functionId, name, code, isDisabled, dryRun } = inputSchema.parse(args);
+
+      const updates: Record<string, unknown> = {};
+      if (name !== undefined) updates.name = name;
+      if (code !== undefined) updates.code = code;
+      if (isDisabled !== undefined) updates.isDisabled = isDisabled;
+
+      if (Object.keys(updates).length === 0) {
+        return {
+          content: [
+            {
+              type: "text" as const,
+              text: JSON.stringify({
+                error: "No updates specified. Provide name, code, or isDisabled.",
+              }),
+            },
+          ],
+          isError: true,
+        };
+      }
 
       // Verify the function exists
       const existing = await client.readFunction({ functionId }) as unknown as Record<string, unknown>;
@@ -64,9 +79,10 @@ export function registerUpdateFunction(
                     name: existing.name,
                   },
                   wouldUpdate: {
-                    name: name || "(unchanged)",
-                    hasNewCode: !!code,
-                    hasNewParameters: !!parameters,
+                    fields: Object.keys(updates),
+                    name: name ?? "(unchanged)",
+                    hasNewCode: code !== undefined,
+                    isDisabled: isDisabled ?? "(unchanged)",
                   },
                 },
                 null,
@@ -77,11 +93,11 @@ export function registerUpdateFunction(
         };
       }
 
-      const result = await client.updateFunction({
+      // The update endpoint returns no body, so report what was sent
+      await client.updateFunction({
         functionId,
-        name,
-        code,
-      } as any) as unknown as Record<string, unknown>;
+        ...updates,
+      } as Parameters<typeof client.updateFunction>[0]);
 
       return {
         content: [
@@ -90,10 +106,8 @@ export function registerUpdateFunction(
             text: JSON.stringify(
               {
                 updated: true,
-                function: {
-                  _id: result._id,
-                  name: result.name,
-                },
+                functionId,
+                fieldsUpdated: Object.keys(updates),
               },
               null,
               2

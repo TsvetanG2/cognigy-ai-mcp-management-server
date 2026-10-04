@@ -1,6 +1,6 @@
 /**
  * merge_contact_profiles tool
- * Merges two contact profiles into one.
+ * Merges the profile of a contact ID into a target contact profile.
  */
 
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
@@ -9,12 +9,15 @@ import type { CognigyClient } from "../cognigy-client.js";
 import type { Config } from "../config.js";
 
 const inputSchema = z.object({
-  sourceProfileId: z
+  projectId: z
     .string()
-    .describe("The source profile ID (will be merged into target)"),
+    .describe("The project ID the profiles belong to"),
   targetProfileId: z
     .string()
-    .describe("The target profile ID (will receive the merged data)"),
+    .describe("The profile ID that will receive the merged data"),
+  sourceContactId: z
+    .string()
+    .describe("A contact ID whose profile will be merged into the target (see contactIds in get_contact_profile / export_contact_profile)"),
   dryRun: z
     .boolean()
     .default(true)
@@ -28,17 +31,14 @@ export function registerMergeContactProfiles(
 ): void {
   server.tool(
     "merge_contact_profiles",
-    "Merges two Cognigy.AI contact profiles into one. The source profile data is merged into the target, and all contact IDs are combined. Use when the same user has multiple profiles. MUTATING: Set dryRun=false to merge.",
+    "Merges the Cognigy.AI contact profile of a given contact ID into a target profile, combining their data and contact IDs. Use when the same user has multiple profiles. MUTATING: Set dryRun=false to merge.",
     inputSchema.shape,
     { readOnlyHint: false, destructiveHint: false, idempotentHint: false, openWorldHint: true },
     async (args) => {
-      const { sourceProfileId, targetProfileId, dryRun } = inputSchema.parse(args);
+      const { projectId, targetProfileId, sourceContactId, dryRun } = inputSchema.parse(args);
 
-      // Verify both profiles exist
-      const [sourceProfile, targetProfile] = await Promise.all([
-        client.readProfile({ profileId: sourceProfileId }) as unknown as Record<string, unknown>,
-        client.readProfile({ profileId: targetProfileId }) as unknown as Record<string, unknown>,
-      ]);
+      // Verify the target profile exists
+      const targetProfile = await client.readProfile({ profileId: targetProfileId });
 
       if (dryRun) {
         return {
@@ -49,15 +49,12 @@ export function registerMergeContactProfiles(
                 {
                   dryRun: true,
                   message: "Validation passed. Set dryRun=false to merge the profiles.",
-                  sourceProfile: {
-                    _id: sourceProfile._id,
-                    contactId: sourceProfile.contactId,
-                  },
                   targetProfile: {
                     _id: targetProfile._id,
-                    contactId: targetProfile.contactId,
+                    contactIds: targetProfile.contactIds,
                   },
-                  note: "Source profile will be merged into target profile.",
+                  sourceContactId,
+                  note: "The profile of sourceContactId will be merged into the target profile.",
                 },
                 null,
                 2
@@ -68,9 +65,10 @@ export function registerMergeContactProfiles(
       }
 
       const result = await client.mergeProfiles({
-        sourceProfileId,
-        targetProfileId,
-      } as any) as unknown as Record<string, unknown>;
+        profileId: targetProfileId,
+        contactId: sourceContactId,
+        projectId,
+      });
 
       return {
         content: [
@@ -80,9 +78,9 @@ export function registerMergeContactProfiles(
               {
                 merged: true,
                 resultProfile: {
-                  _id: result._id || targetProfileId,
+                  _id: result._id ?? targetProfileId,
+                  contactIds: result.contactIds,
                 },
-                note: "Profiles have been merged. The source profile data is now in the target.",
               },
               null,
               2
