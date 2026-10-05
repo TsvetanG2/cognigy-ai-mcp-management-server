@@ -61,7 +61,7 @@
     "tsx": "^4.0.0",
     "typescript": "~5.9.3",
     "typescript-eslint": "^8.65.0",
-    "vitest": "^4.1.7"
+    "vitest": "^5.0.3"
   },
   "overrides": {
     "axios": "^1.20.0",
