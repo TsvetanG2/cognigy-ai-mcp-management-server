@@ -55,7 +55,7 @@
     "@typescript-eslint/parser": "^8.65.0",
     "dotenv": "^17.4.2",
     "eslint": "^10.7.0",
-    "msw": "^2.0.0",
+    "msw": "^3.0.1",
     "openapi-typescript": "^7.0.0",
     "sharp": "^0.35.3",
     "tsx": "^4.0.0",
